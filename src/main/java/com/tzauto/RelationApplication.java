@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan(value = "com.tzauto.dao")
+//SFCZ4_ZDCVL  表单编号
 public class RelationApplication extends AbstractJavaFxApplicationSupport {
 
 	public static void main(String[] args) {
