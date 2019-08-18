@@ -7,8 +7,7 @@
 
     <select id="getAll" resultType="com.tzauto.entity.RelationEntity">
 
-
-
+    select * from  relations
 
     </select>
 </mapper>
