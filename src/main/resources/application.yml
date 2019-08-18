@@ -7,7 +7,7 @@ spring:
     username: root
     password: 654321
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.104.206.97:3306/tobest?useSSL=false
+    url: jdbc:mysql://39.104.206.97:3306/octopus?useSSL=false
 #   数据源其他配置
     initialSize: 5
     minIdle: 5
