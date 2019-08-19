@@ -3,7 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tzauto.dao.MainMapping">
-
+    <insert id="add">
+      insert  into (lot,recipe_name,material_number) value (#{lot} ,#{recipeName}, #{materialNumber})
+    </insert>
+    <update id="update">
+        update relations set lot = #{lot} , recipe_name = #{recipeName} , material_number = #{materialNumber} where id = #{id}
+    </update>
+    <delete id="delete">
+        delete from relations where id = #{id}
+    </delete>
 
     <select id="getAll" resultType="com.tzauto.entity.RelationEntity">
 

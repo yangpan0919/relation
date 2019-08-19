@@ -13,18 +13,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @FXMLController
 public class MainController implements Initializable {
 
     public  ObservableList<RelationInfo> list = FXCollections.observableArrayList();
+
+    public static RelationEntity relationEntity;
 
     @FXML
     private TableView<RelationInfo> dataTable;     //tableView
@@ -37,6 +41,8 @@ public class MainController implements Initializable {
 
     @Autowired
     MainServer mainServer;
+    @Autowired
+    ParmController parmController;
 
 
 
@@ -48,21 +54,21 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        dataTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RelationInfo>() {//单击事件
-            @Override
-            public void changed(ObservableValue<? extends RelationInfo> observable, RelationInfo oldValue, RelationInfo newValue) {
-                System.out.println(newValue.getLot());
-            }
-        });
+//        dataTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RelationInfo>() {//单击事件
+//            @Override
+//            public void changed(ObservableValue<? extends RelationInfo> observable, RelationInfo oldValue, RelationInfo newValue) {
+//                System.out.println(newValue.getLot());
+//            }
+//        });
 
         dataTable.setRowFactory( tv -> {
             TableRow<RelationInfo> row = new TableRow<RelationInfo>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     RelationInfo relationInfo = row.getItem();
-                    System.out.println(relationInfo.getLot());
-                    System.out.println(relationInfo.getMaterialNumber());
-                    System.out.println(relationInfo.getRecipeName());
+                    relationEntity = new RelationEntity(relationInfo.getId(),relationInfo.getLot(),relationInfo.getMaterialNumber(),relationInfo.getRecipeName());
+                    parmController.test();
+                    RelationApplication.showView(ParmView.class, Modality.NONE);
                 }
             });
             return row ;
@@ -71,8 +77,13 @@ public class MainController implements Initializable {
         materialNumber.setCellValueFactory(celldata -> celldata.getValue().materialNumberProperty());
         recipeName.setCellValueFactory(celldata -> celldata.getValue().recipeNameProperty());
 
-        List<RelationEntity> all = mainServer.getAll();
+        flushData();
 
+    }
+
+    public void flushData(){
+        dataTable.getItems().clear();
+        List<RelationEntity> all = mainServer.getAll();
         for (int i = 0; i < all.size(); i++) {
             RelationEntity dataTableProperty = all.get(i);
 
@@ -81,25 +92,47 @@ public class MainController implements Initializable {
             list.add(property);
         }
         dataTable.setItems(list);
-        System.out.println(all);
-
     }
 
     public void delete(ActionEvent actionEvent) {
-        System.out.println("delete");
-        System.out.println(dataTable.getSelectionModel().getFocusedIndex());
-        dataTable.getSelectionModel().getSelectedItems().forEach(x->{
-            System.out.println(x.getLot());
-            System.out.println(x.getMaterialNumber());
-            System.out.println(x.getRecipeName());
-        });
+        if(dataTable.getSelectionModel().getSelectedItems().size() == 0){
+            return;
+        }
+        Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+        //设置对话框标题
+        alert2.setTitle("删除");
+        //设置内容
+        alert2.setHeaderText("确认要删除吗？");
+        //显示对话框
+        Optional<ButtonType> result = alert2.showAndWait();
+        //如果点击OK
+        if (result.get() == ButtonType.OK){
+            dataTable.getSelectionModel().getSelectedItems().forEach(x->{
+                mainServer.delete(x.getId());
+
+            });
+        }
     }
 
     public void add(ActionEvent actionEvent) {
+        relationEntity = new RelationEntity();
+        parmController.test();
+        RelationApplication.showView(ParmView.class, Modality.NONE);
+
         System.out.println("add");
     }
 
     public void update(ActionEvent actionEvent) {
+        if(dataTable.getSelectionModel().getSelectedItems().size() == 0){
+            return;
+        }
+        dataTable.getSelectionModel().getSelectedItems().forEach(x->{
+
+            relationEntity = new RelationEntity(x.getId(),x.getLot(),x.getMaterialNumber(),x.getRecipeName());
+            parmController.test();
+            RelationApplication.showView(ParmView.class, Modality.NONE);
+
+        });
         System.out.println("update");
     }
 }

@@ -4,6 +4,15 @@ package com.tzauto.entity;
  * Created by Administrator on 2019/8/16.
  */
 public class RelationEntity {
+    public RelationEntity() {
+    }
+
+    public RelationEntity(Integer id, String lot, String materialNumber, String recipeName) {
+        this.id = id;
+        this.lot = lot;
+        this.materialNumber = materialNumber;
+        this.recipeName = recipeName;
+    }
 
     private Integer id;
 
@@ -16,15 +25,15 @@ public class RelationEntity {
     }
 
     //批次
-    private String lot;
+    private String lot = "";
 
 
     //料号
-    private String materialNumber;
+    private String materialNumber = "";
 
 
     //程序名
-    private String recipeName;
+    private String recipeName = "";
 
     public String getLot() {
         return lot;

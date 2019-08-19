@@ -12,4 +12,10 @@ public interface MainMapping {
 
     List<RelationEntity> getAll();
 
+    void delete(int id);
+
+    void add(RelationEntity relationEntity);
+
+    void update(RelationEntity relationEntity);
+
 }
