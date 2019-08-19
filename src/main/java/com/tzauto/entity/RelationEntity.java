@@ -5,6 +5,16 @@ package com.tzauto.entity;
  */
 public class RelationEntity {
 
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     //批次
     private String lot;
 
@@ -14,7 +24,7 @@ public class RelationEntity {
 
 
     //程序名
-    private String programName;
+    private String recipeName;
 
     public String getLot() {
         return lot;
@@ -32,11 +42,11 @@ public class RelationEntity {
         this.materialNumber = materialNumber;
     }
 
-    public String getProgramName() {
-        return programName;
+    public String getRecipeName() {
+        return recipeName;
     }
 
-    public void setProgramName(String programName) {
-        this.programName = programName;
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
     }
 }

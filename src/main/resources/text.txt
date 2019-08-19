@@ -1,1 +1,55 @@
 C:/March/Plasma_1/Recipes
+
+QHD
+//第一步: 已有表單單號查詢 ,獲取當天,當班,同一機台 單號,若有,則抓取該單號,執行第六
+步(跳過第二,第三步，第四，第五步，直接執行第六步),若沒有 ,則執行第二步.
+//第六個參數:表單編號|日期(系統日期-8 小時)|機台號|班別(0:白班 ,1:夜班)
+ds = webServiceSZ.ws.wsGetFun("test"（用戶名）, "test（密碼）", "#01"（機台編號）, "0005
+（功能碼）", "G0001（功能碼）", （第六個參數）"SFCZ4_ZDCVL|20181121|PNLAVI002#(機
+台號)|0", System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+
+
+//第二步:調用 系統生產單號 方法 ,獲取單號,之後執行第三步
+//第六個參數: 日期(系統日期-8 小時)|班別(0:白班 ,1:夜班)
+ds = webServiceSZ.ws.wsGetFun("test", "test", "#01", "0005", "G0002", "20180926|0",
+System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+
+
+//第三步: 插入主表數據 , 執行第四步
+//第 7 個參數: 表單號|狀態|日期(系統日期-8 小時)|機台號|表單編號|班別(0 白班 1 夜 班)|廠區(QHDA02,QHDA06,QHDA07)|創建時間|創建工號
+ret = webServiceSZ.ws.wsSendFun(
+"test", "test", "#01", "0005", "0003",
+"PaperNo|Status|Dodate|MachineNo|Report|ClassInfo|Factory|CreateTime|CreateEmpid",
+"test2018030200343|1|20180302|TEST|SFCZ4_ZDCVL|0|QHDA06|" +
+System.DateTime.Now.ToString("yyyyMMddHHmmss") + "|G1479462",
+System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+
+
+//第四步: 批號獲料號,層別,數量 ,執行第五步
+//第 6 個參數: 批號
+para1 = "MF87273521";
+ds = webServiceSZ.ws.wsGetFun("test", "test", "#01", "0007", "0002", para1,
+System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+
+
+//第五步: 根據 批號,層別 帶出 料號,在製層,途程序,主途程序,制程,主配件,層別名稱,第幾
+次過站,工令 ;執行第五步
+//第 6 個參數: 批號|表單編號|層別
+para1 = "MF88020361|SFCZ4_ZDCVL |0";
+ds = webServiceSZ.ws.wsGetFun("test", "test", "#01", "0007", "0009", para1,
+System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+
+
+//第六步: 明細表數據插入
+para1 =
+"PaperNo|StartTime|lLot|Lotnum|Layer|sfclayer|LayerName|mainserial|serial|workno|FirstAc
+ess|Item2|Item3|Item4|Item5|Item6|Item7|Item8|Item9|" +
+"Item10|Qty|Item11|Item12|Item13|Item14|Item15|Item16|Item17|Item18";//詳細內容
+請參考 E 化表格（TEMCODE）
+para2 = "2018082400921|20181110014309|FSNW003A1A|M808172031|60|60| 主 要
++CVL-ACVL-B|17|8|WN6-I80309|5|FSNW003A1ASTA|0|0|90|90|7|SG10046|FSNW003STAA1A
+|" +
+"G1478673|12|5|G1478673|STA|0.225mm|16188052-A602222|STA|0.225mm|16188052-A602
+222";//詳細內容請參考 E 化表格(對應值)
+ret = webServiceSZ.ws.wsSendFun("test", "test", "#01", "0005", "0006", para1, para2,
+System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
