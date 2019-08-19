@@ -1,6 +1,6 @@
 package com.tzauto;
 
-import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
+import com.tzauto.javafxSupport.AbstractJavaFxApplicationSupport;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

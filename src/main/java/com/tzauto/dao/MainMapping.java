@@ -18,4 +18,6 @@ public interface MainMapping {
 
     void update(RelationEntity relationEntity);
 
+    RelationEntity query(RelationEntity relationEntity);
+
 }

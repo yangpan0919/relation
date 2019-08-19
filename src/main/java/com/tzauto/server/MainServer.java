@@ -11,6 +11,8 @@ import javafx.scene.control.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLNonTransientException;
 import java.util.List;
 
 /**
@@ -38,17 +40,25 @@ public class MainServer {
 
     public void active(RelationEntity relationEntity) {
 
-        if(relationEntity.getLot().trim().equals("")||relationEntity.getRecipeName().trim().equals("")||relationEntity.getMaterialNumber().trim().equals("")){
-            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "请填写内容！！！");
+        if (relationEntity.getLot().trim().equals("") || relationEntity.getRecipeName().trim().equals("") || relationEntity.getMaterialNumber().trim().equals("")) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "请将内容填写完整！！！");
             return;
         }
-        if(relationEntity.getId() == null){
+
+        RelationEntity query = mainMapping.query(relationEntity);
+        if (query != null) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "该条记录已存在！！！");
+            return;
+        }
+
+
+        if (relationEntity.getId() == null) {
             mainMapping.add(relationEntity);
-        }else{
+        } else {
             mainMapping.update(relationEntity);
         }
-        Object presenter = parmView.getPresenter();
-        Node viewWithoutRootContainer = parmView.getViewWithoutRootContainer();
+
+        parmView.getStage().close();
 
         mainController.flushData();
     }

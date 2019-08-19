@@ -1,7 +1,7 @@
 package com.tzauto;
 
-import de.felixroske.jfxsupport.AbstractFxmlView;
-import de.felixroske.jfxsupport.FXMLView;
+import com.tzauto.javafxSupport.AbstractFxmlView;
+import com.tzauto.javafxSupport.FXMLView;
 
 @FXMLView("/fxml/mes.fxml")
 public class MainView extends AbstractFxmlView {

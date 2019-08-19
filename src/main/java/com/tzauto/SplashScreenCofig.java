@@ -1,7 +1,7 @@
 package com.tzauto;
 
 
-import de.felixroske.jfxsupport.SplashScreen;
+import com.tzauto.javafxSupport.SplashScreen;
 
 /**
  * 修改javafx的启动图片

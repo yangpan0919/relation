@@ -1,7 +1,7 @@
 package com.tzauto;
 
 import com.tzauto.server.MainServer;
-import de.felixroske.jfxsupport.FXMLController;
+import com.tzauto.javafxSupport.FXMLController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
