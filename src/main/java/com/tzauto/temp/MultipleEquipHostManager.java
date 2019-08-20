@@ -20,8 +20,6 @@ import cn.tzauto.octopus.common.util.ftp.FtpUtil;
 import cn.tzauto.octopus.common.util.tool.JsonMapper;
 import cn.tzauto.octopus.gui.EquipmentEventDealer;
 import cn.tzauto.octopus.gui.guiUtil.UiLogUtil;
-import cn.tzauto.octopus.isecsLayer.domain.EquipModel;
-//import cn.tzauto.octopus.sdr4isecs.main.MultipleSDRManager;
 import cn.tzauto.octopus.secsLayer.exception.NotInitializedException;
 import cn.tzauto.octopus.secsLayer.exception.UploadRecipeErrorException;
 import cn.tzauto.octopus.secsLayer.util.NormalConstant;
@@ -39,6 +37,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+//import cn.tzauto.octopus.sdr4isecs.main.MultipleSDRManager;
 
 public class MultipleEquipHostManager {
 

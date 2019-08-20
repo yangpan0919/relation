@@ -8,7 +8,6 @@ import cn.tzauto.octopus.common.globalConfig.GlobalConstants;
 import cn.tzauto.octopus.common.resolver.TransferUtil;
 import cn.tzauto.octopus.common.resolver.hitachi.LaserDrillUtil;
 import cn.tzauto.octopus.common.util.ftp.FtpUtil;
-import cn.tzauto.octopus.common.ws.AvaryAxisUtil;
 import cn.tzauto.octopus.gui.guiUtil.UiLogUtil;
 import cn.tzauto.octopus.isecsLayer.domain.EquipModel;
 import org.apache.ibatis.session.SqlSession;
@@ -35,7 +34,7 @@ public class PlasmaHost extends EquipModel {
     @Override
     public String getCurrentRecipeName() {
         logger.info("执行了getCurrentRecipeName方法");
-        return null;
+        return recipeName;
     }
 
     @Override
@@ -226,25 +225,45 @@ public class PlasmaHost extends EquipModel {
         //todo
         synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
             try {
-                List<String> result = iSecsHost.executeCommand("playback selrecipe.txt");
-                Thread.sleep(900);
-                iSecsHost.executeCommand("write lot " + this.lotId);
-//                iSecsHost.executeCommand("dialog \"Lot No\" write " + lotId);
+                iSecsHost.executeCommand("playback materialNumber.txt");
+                Thread.sleep(500);
+                iSecsHost.executeCommand("write materialNumber " + this.materialNumber);
                 iSecsHost.executeCommand("replay enter.exe");
-                Thread.sleep(1800);
-                iSecsHost.executeCommand("playback clearpartno.txt");
-                iSecsHost.executeCommand("dialog \"OPEN FILE\" write " + equipRecipePath + "\\" + recipeName);
-                result = iSecsHost.executeCommand("dialog \"OPEN FILE\" action \"&Open\"");
-                for (String str : result) {
-                    if ("done".equals(str)) {
-                        ppExecName = recipeName;
-                        return "0";
-                    }
-                    if (str.contains("rror")) {
-                        return "选中失败";
-                    }
-                }
-                return "选中失败";
+
+                iSecsHost.executeCommand("playback lot.txt");
+                Thread.sleep(500);
+                iSecsHost.executeCommand("write lot " + this.lotId);
+                iSecsHost.executeCommand("replay enter.exe");
+
+
+                iSecsHost.executeCommand("playback recipe1.txt");//调程式第一步
+                Thread.sleep(500);
+                iSecsHost.executeCommand("playback recipe2.txt");//调程式第二步
+                Thread.sleep(500);
+                iSecsHost.executeCommand("playback recipe3.txt");//调程式第三步
+                Thread.sleep(500);
+                iSecsHost.executeCommand("playback recipe4.txt");//调程式第四步
+                return "0";
+//                List<String> result = iSecsHost.executeCommand("playback selrecipe.txt");
+//
+//                Thread.sleep(900);
+//                iSecsHost.executeCommand("write lot " + this.lotId);
+////                iSecsHost.executeCommand("dialog \"Lot No\" write " + lotId);
+//                iSecsHost.executeCommand("replay enter.exe");
+//                Thread.sleep(1800);
+//                iSecsHost.executeCommand("playback clearpartno.txt");
+//                iSecsHost.executeCommand("dialog \"OPEN FILE\" write " + equipRecipePath + "\\" + recipeName);
+//                result = iSecsHost.executeCommand("dialog \"OPEN FILE\" action \"&Open\"");
+//                for (String str : result) {
+//                    if ("done".equals(str)) {
+//                        ppExecName = recipeName;
+//                        return "0";
+//                    }
+//                    if (str.contains("rror")) {
+//                        return "选中失败";
+//                    }
+//                }
+//                return "选中失败";
             } catch (Exception e) {
                 logger.error("Select recipe " + recipeName + " error:" + e.getMessage());
                 return "选中失败";
@@ -323,12 +342,12 @@ public class PlasmaHost extends EquipModel {
                 logger.error("Get equip status error:" + e.getMessage());
             }
         }
-        Map map = new HashMap();
-        map.put("EquipStatus", equipStatus);
-        if (!equipStatus.equals(preEquipStatusTemp)) {
-            preEquipStatus = preEquipStatusTemp;
-            changeEquipPanel(map);
-        }
+//        Map map = new HashMap();
+//        map.put("EquipStatus", equipStatus);
+//        if (!equipStatus.equals(preEquipStatusTemp)) {
+//            preEquipStatus = preEquipStatusTemp;
+//            changeEquipPanel(map);
+//        }
 //        return equipStatus;
         return null;
     }
@@ -379,15 +398,15 @@ public class PlasmaHost extends EquipModel {
             return false;
         }
         Map<String, String> productionMap = AvaryAxisUtil.getProductionMap(lotId, tableNum, deviceCode);
-        String item3 = "";
+        String item2 = "";
         String item4 = "";
         String item5 = "";
         String item6 = "";
-        String scsl = "";
-        String power = "";
+//        "PaperNo|MacState|StartTime|EndTime|Lotnum|Layer|MainSerial|Partnum|WorkNo|SfcLayer|LayerName|Serial|OrderId|Item1|Qty|IsOk|Item2|Item4|Item5|Item6|CreateEmpid|CreateTime"
+
         String result = AvaryAxisUtil.insertTable(result1, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, productionMap.get("Layer"), productionMap.get("MainSerial"),
-                productionMap.get("PartNum"), productionMap.get("WorkNo"), productionMap.get("Layer"), productionMap.get("LayerName"), productionMap.get("Serial"), productionMap.get("OrderId"), scsl, power,
-                item3, item4, item5, item6, isFirstPro ? "1" : "0"
+                productionMap.get("PartNum"), productionMap.get("WorkNo"), productionMap.get("Layer"), productionMap.get("LayerName"), productionMap.get("Serial"), productionMap.get("OrderId"), recipeName,productNum,
+                isFirstPro ? "1" : "0",item2, item4, item5, item6, opId
         );
 //        String result = AvaryAxisUtil.insertTable(result1, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, map4.get("Layer"), map5.get("MainSerial"),
 //                map5.get("PartNum"), map5.get("WorkNo"), map4.get("Layer"), map5.get("LayerName"), map5.get("Serial"), map5.get("OrderId"), scsl, power,
