@@ -27,9 +27,9 @@ public class LanguageUtil {
 
     }
 
-    public static void main(String[] args) {
-        LanguageUtil l =new LanguageUtil();
-        System.out.println(l.getLocale());
-
-    }
+//    public static void main(String[] args) {
+//        LanguageUtil l =new LanguageUtil();
+//        System.out.println(l.getLocale());
+//
+//    }
 }

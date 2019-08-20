@@ -113,7 +113,6 @@ public class MainController implements Initializable {
         parmController.test();
         RelationApplication.showView(ParmView.class, Modality.NONE);
 
-        System.out.println("add");
     }
 
     public void update(ActionEvent actionEvent) {
@@ -127,6 +126,5 @@ public class MainController implements Initializable {
             RelationApplication.showView(ParmView.class, Modality.NONE);
 
         });
-        System.out.println("update");
     }
 }

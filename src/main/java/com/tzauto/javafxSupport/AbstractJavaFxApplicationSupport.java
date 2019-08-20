@@ -295,15 +295,15 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
     private static KeyCharacterCombination keyCombination;
     private static Scene scene;
 
-    static {
-        minButton = new javafx.scene.control.Button("—");
-        amxButton = new javafx.scene.control.Button("口");
-        gridPane = new GridPane();
-        box = new VBox();
-        vBox = new VBox();
-        keyCombination = new KeyCharacterCombination("Z", KeyCombination.CONTROL_DOWN);
-        scene = new Scene(vBox);
-    }
+//    static {
+//        minButton = new javafx.scene.control.Button("—");
+//        amxButton = new javafx.scene.control.Button("口");
+//        gridPane = new GridPane();
+//        box = new VBox();
+//        vBox = new VBox();
+//        keyCombination = new KeyCharacterCombination("Z", KeyCombination.CONTROL_DOWN);
+//        scene = new Scene(vBox);
+//    }
 
     /**
      * Show view.
