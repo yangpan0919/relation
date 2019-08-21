@@ -6,19 +6,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tzauto.ParmController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tzauto.ParmController">
    <children>
-      <Pane prefHeight="257.0" prefWidth="542.0">
+      <Pane prefHeight="205.0" prefWidth="565.0">
          <children>
-            <Button layoutX="381.0" layoutY="135.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="123.0" text="确认" onAction="#action" />
-            <TextField fx:id="lot" layoutX="52.0" layoutY="50.0" />
-            <TextField fx:id="materialNumber" layoutX="199.0" layoutY="50.0" />
-            <TextField fx:id="fixtureno" layoutX="360.0" layoutY="50.0" />
-            <TextField fx:id="recipeName" layoutX="460.0" layoutY="50.0" />
-            <Label layoutX="98.0" layoutY="14.0" text="批次" />
-            <Label layoutX="245.0" layoutY="14.0" text="料号" />
-            <Label layoutX="406.0" layoutY="14.0" text="序号" />
-            <Label layoutX="506.0" layoutY="14.0" text="程序名" />
+            <Button layoutX="381.0" layoutY="135.0" mnemonicParsing="false" onAction="#action" prefHeight="45.0" prefWidth="123.0" text="确认" />
+            <TextField fx:id="lot" layoutX="30.0" layoutY="50.0" prefHeight="26.0" prefWidth="123.0" />
+            <TextField fx:id="materialNumber" layoutX="164.0" layoutY="50.0" prefHeight="26.0" prefWidth="123.0" />
+            <TextField fx:id="fixtureno" layoutX="305.0" layoutY="50.0" prefHeight="26.0" prefWidth="87.0" />
+            <TextField fx:id="recipeName" layoutX="409.0" layoutY="50.0" prefHeight="26.0" prefWidth="123.0" />
+            <Label layoutX="75.0" layoutY="14.0" text="批次" />
+            <Label layoutX="209.0" layoutY="14.0" text="料号" />
+            <Label layoutX="337.0" layoutY="14.0" text="序号" />
+            <Label layoutX="448.0" layoutY="14.0" text="程序名" />
          </children>
       </Pane>
    </children>

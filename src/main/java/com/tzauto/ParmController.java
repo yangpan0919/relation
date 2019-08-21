@@ -57,9 +57,7 @@ public class ParmController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lot.setText(MainController.relationEntity.getLot());
-        materialNumber.setText(MainController.relationEntity.getMaterialNumber());
-        recipeName.setText(MainController.relationEntity.getRecipeName());
+        test();
     }
 
 

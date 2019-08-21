@@ -37,7 +37,7 @@ mybatis:
 
 javafx:
     stage:
-        resizable: true
+        resizable: false
     title: 关系维护
     appicons: /logoTaiZhi.png
 
