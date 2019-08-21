@@ -24,6 +24,8 @@ public class ParmController implements Initializable {
     private TextField materialNumber;
     @FXML
     private TextField recipeName;
+    @FXML
+    private TextField fixtureno;
 
     public TextField getLot() {
         return lot;
@@ -62,9 +64,10 @@ public class ParmController implements Initializable {
 
 
     public void action(ActionEvent actionEvent) {
-        MainController.relationEntity.setLot(lot.getText());
-        MainController.relationEntity.setMaterialNumber(materialNumber.getText());
-        MainController.relationEntity.setRecipeName(recipeName.getText());
+        MainController.relationEntity.setLot(lot.getText().trim());
+        MainController.relationEntity.setMaterialNumber(materialNumber.getText().trim());
+        MainController.relationEntity.setFixtureno(fixtureno.getText().trim());
+        MainController.relationEntity.setRecipeName(recipeName.getText().trim());
         mainServer.active(MainController.relationEntity);
     }
 
@@ -73,6 +76,7 @@ public class ParmController implements Initializable {
             lot.setText(MainController.relationEntity.getLot());
             materialNumber.setText(MainController.relationEntity.getMaterialNumber());
             recipeName.setText(MainController.relationEntity.getRecipeName());
+            fixtureno.setText(MainController.relationEntity.getFixtureno());
         } catch (Exception e) {
 
         }

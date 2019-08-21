@@ -33,6 +33,7 @@
                     <columns>
                         <TableColumn fx:id="lot" prefWidth="165.99998474121094" text="LOT(批次)"/>
                         <TableColumn fx:id="materialNumber" prefWidth="188.0" text="料号"/>
+                        <TableColumn fx:id="fixtureno" prefWidth="188.0" text="序号"/>
                         <TableColumn fx:id="recipeName" prefWidth="141.0" text="程序名"/>
                     </columns>
                 </TableView>

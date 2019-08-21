@@ -8,10 +8,12 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class RelationInfo {
 
-    //批次
+    //主键ID
     private SimpleIntegerProperty id;
     //批次
     private SimpleStringProperty lot;
+    //序号
+    private SimpleStringProperty fixtureno;
 
 
     //料号
@@ -22,6 +24,18 @@ public class RelationInfo {
     private SimpleStringProperty recipeName;
 
     public RelationInfo() {
+    }
+
+    public String getFixtureno() {
+        return fixtureno.get();
+    }
+
+    public SimpleStringProperty fixturenoProperty() {
+        return fixtureno;
+    }
+
+    public void setFixtureno(String fixtureno) {
+        this.fixtureno.set(fixtureno);
     }
 
     public int getId() {
@@ -42,11 +56,12 @@ public class RelationInfo {
         this.materialNumber = new SimpleStringProperty(materialNumber);
 
     }
-    public RelationInfo(String lot, String materialNumber, String recipeName,Integer id) {
+    public RelationInfo(String lot, String materialNumber, String recipeName,Integer id,String fixtureno) {
         this.id = new SimpleIntegerProperty(id);
         this.lot = new SimpleStringProperty(lot);
         this.recipeName = new SimpleStringProperty(recipeName);
         this.materialNumber = new SimpleStringProperty(materialNumber);
+        this.fixtureno = new SimpleStringProperty(fixtureno);
 
     }
 

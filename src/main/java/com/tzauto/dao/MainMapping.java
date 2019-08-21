@@ -20,4 +20,6 @@ public interface MainMapping {
 
     RelationEntity query(RelationEntity relationEntity);
 
+    RelationEntity queryForUpdate(RelationEntity relationEntity);
+
 }

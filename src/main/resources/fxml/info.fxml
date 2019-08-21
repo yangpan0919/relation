@@ -13,10 +13,12 @@
             <Button layoutX="381.0" layoutY="135.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="123.0" text="确认" onAction="#action" />
             <TextField fx:id="lot" layoutX="52.0" layoutY="50.0" />
             <TextField fx:id="materialNumber" layoutX="199.0" layoutY="50.0" />
-            <TextField fx:id="recipeName" layoutX="360.0" layoutY="50.0" />
+            <TextField fx:id="fixtureno" layoutX="360.0" layoutY="50.0" />
+            <TextField fx:id="recipeName" layoutX="460.0" layoutY="50.0" />
             <Label layoutX="98.0" layoutY="14.0" text="批次" />
             <Label layoutX="245.0" layoutY="14.0" text="料号" />
-            <Label layoutX="406.0" layoutY="14.0" text="程序名" />
+            <Label layoutX="406.0" layoutY="14.0" text="序号" />
+            <Label layoutX="506.0" layoutY="14.0" text="程序名" />
          </children>
       </Pane>
    </children>

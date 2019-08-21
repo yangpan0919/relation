@@ -40,21 +40,25 @@ public class MainServer {
 
     public void active(RelationEntity relationEntity) {
 
-        if (relationEntity.getLot().trim().equals("") || relationEntity.getRecipeName().trim().equals("") || relationEntity.getMaterialNumber().trim().equals("")) {
+        if (relationEntity.getLot().equals("") || relationEntity.getRecipeName().equals("")
+                || relationEntity.getMaterialNumber().equals("") || relationEntity.getFixtureno().equals("")) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "请将内容填写完整！！！");
             return;
         }
 
         RelationEntity query = mainMapping.query(relationEntity);
-        if (query != null) {
-            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "该条记录已存在！！！");
-            return;
-        }
-
 
         if (relationEntity.getId() == null) {
+            if (query != null) {
+                CommonUiUtil.alert(Alert.AlertType.INFORMATION, "相同的批号，料号，序号的记录已存在，删除后可进行添加！！！");
+                return;
+            }
             mainMapping.add(relationEntity);
         } else {
+            if (query != null && (!query.getId().equals(relationEntity.getId()))) {
+                CommonUiUtil.alert(Alert.AlertType.INFORMATION, "相同的批号，料号，序号的记录已存在，删除后可进行修改！！！");
+                return;
+            }
             mainMapping.update(relationEntity);
         }
 

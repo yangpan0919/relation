@@ -7,11 +7,12 @@ public class RelationEntity {
     public RelationEntity() {
     }
 
-    public RelationEntity(Integer id, String lot, String materialNumber, String recipeName) {
+    public RelationEntity(Integer id, String lot, String materialNumber, String recipeName,String fixtureno) {
         this.id = id;
         this.lot = lot;
         this.materialNumber = materialNumber;
         this.recipeName = recipeName;
+        this.fixtureno = fixtureno;
     }
 
     private Integer id;
@@ -22,6 +23,17 @@ public class RelationEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    //序号
+    private String fixtureno;
+
+    public String getFixtureno() {
+        return fixtureno;
+    }
+
+    public void setFixtureno(String fixtureno) {
+        this.fixtureno = fixtureno;
     }
 
     //批次

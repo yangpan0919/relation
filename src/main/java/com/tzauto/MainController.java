@@ -32,6 +32,8 @@ public class MainController implements Initializable {
     private TableColumn<RelationInfo, String> materialNumber = new TableColumn<>();
     @FXML
     private TableColumn<RelationInfo, String> recipeName = new TableColumn<>();
+    @FXML
+    private TableColumn<RelationInfo, String> fixtureno = new TableColumn<>();
 
     @Autowired
     MainServer mainServer;
@@ -60,7 +62,7 @@ public class MainController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     RelationInfo relationInfo = row.getItem();
-                    relationEntity = new RelationEntity(relationInfo.getId(),relationInfo.getLot(),relationInfo.getMaterialNumber(),relationInfo.getRecipeName());
+                    relationEntity = new RelationEntity(relationInfo.getId(),relationInfo.getLot(),relationInfo.getMaterialNumber(),relationInfo.getRecipeName(),relationInfo.getFixtureno());
                     parmController.test();
                     RelationApplication.showView(ParmView.class, Modality.NONE);
                 }
@@ -70,6 +72,7 @@ public class MainController implements Initializable {
         lot.setCellValueFactory(celldata -> celldata.getValue().lotProperty());
         materialNumber.setCellValueFactory(celldata -> celldata.getValue().materialNumberProperty());
         recipeName.setCellValueFactory(celldata -> celldata.getValue().recipeNameProperty());
+        fixtureno.setCellValueFactory(celldata -> celldata.getValue().fixturenoProperty());
 
         flushData();
 
@@ -82,7 +85,7 @@ public class MainController implements Initializable {
             RelationEntity dataTableProperty = all.get(i);
 
             RelationInfo property = new RelationInfo(dataTableProperty.getLot(),dataTableProperty.getMaterialNumber(),
-                    dataTableProperty.getRecipeName(),dataTableProperty.getId());
+                    dataTableProperty.getRecipeName(),dataTableProperty.getId(),dataTableProperty.getFixtureno());
             list.add(property);
         }
         dataTable.setItems(list);
@@ -121,7 +124,7 @@ public class MainController implements Initializable {
         }
         dataTable.getSelectionModel().getSelectedItems().forEach(x->{
 
-            relationEntity = new RelationEntity(x.getId(),x.getLot(),x.getMaterialNumber(),x.getRecipeName());
+            relationEntity = new RelationEntity(x.getId(),x.getLot(),x.getMaterialNumber(),x.getRecipeName(),x.getFixtureno());
             parmController.test();
             RelationApplication.showView(ParmView.class, Modality.NONE);
 
