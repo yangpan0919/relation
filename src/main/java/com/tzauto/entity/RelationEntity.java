@@ -6,7 +6,7 @@ package com.tzauto.entity;
 public class RelationEntity {
     public RelationEntity() {
     }
-
+//iSecsHost.executeCommand("dialog \"Lot No\" write " + lotId);
     public RelationEntity(Integer id, String lot, String materialNumber, String recipeName,String fixtureno) {
         this.id = id;
         this.lot = lot;
