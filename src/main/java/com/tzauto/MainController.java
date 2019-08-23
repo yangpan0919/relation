@@ -64,7 +64,7 @@ public class MainController implements Initializable {
                     RelationInfo relationInfo = row.getItem();
                     relationEntity = new RelationEntity(relationInfo.getId(),relationInfo.getLot(),relationInfo.getMaterialNumber(),relationInfo.getRecipeName(),relationInfo.getFixtureno());
                     parmController.test();
-                    RelationApplication.showView(ParmView.class, Modality.NONE);
+                    RelationApplication.showView(ParmView.class,null,"输入文本",null, Modality.NONE);
                 }
             });
             return row ;
@@ -114,7 +114,7 @@ public class MainController implements Initializable {
     public void add(ActionEvent actionEvent) {
         relationEntity = new RelationEntity();
         parmController.test();
-        RelationApplication.showView(ParmView.class, Modality.NONE);
+        RelationApplication.showView(ParmView.class,null,"输入文本",null, Modality.NONE);
 
     }
 
@@ -126,7 +126,7 @@ public class MainController implements Initializable {
 
             relationEntity = new RelationEntity(x.getId(),x.getLot(),x.getMaterialNumber(),x.getRecipeName(),x.getFixtureno());
             parmController.test();
-            RelationApplication.showView(ParmView.class, Modality.NONE);
+            RelationApplication.showView(ParmView.class,null,"输入文本",null, Modality.NONE);
 
         });
     }

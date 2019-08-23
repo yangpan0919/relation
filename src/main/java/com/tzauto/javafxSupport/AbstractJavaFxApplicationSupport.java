@@ -167,7 +167,7 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
             }
             Image image = null;
             try {
-                image = new Image(ClassLoader.getSystemResource("static/logoTaiZhi.png").openStream());
+                image = new Image(ClassLoader.getSystemResource("logoTaiZhi.png").openStream());
             } catch (IOException e) {
                 LOGGER.error("stage icon 加载失败", e);
             }
