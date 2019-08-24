@@ -53,7 +53,7 @@ public class PlasmaHost extends EquipModel {
         } catch (Exception e) {
             logger.error("plasma 的不用上传的批号加载出错！！！：" + textPath);
             AvaryAxisUtil.main.stop();
-        }finally {
+        } finally {
             if (isr != null) {
                 try {
                     isr.close();
@@ -85,7 +85,7 @@ public class PlasmaHost extends EquipModel {
         } catch (Exception e) {
             logger.error("plasma 本地员工编号验证文件加载失败！！！：" + textPath);
             AvaryAxisUtil.main.stop();
-        }finally {
+        } finally {
             if (isr != null) {
                 try {
                     isr.close();
@@ -518,6 +518,7 @@ public class PlasmaHost extends EquipModel {
 
     public boolean uploadData(String macstate) throws RemoteException, ServiceException, MalformedURLException {
         if (lotList.contains(lotId)) {
+            logger.info("不需要进行数据上传的批次：" + lotId);
             return true;
         }
         logger.info("开始进行数据上传：" + macstate);
