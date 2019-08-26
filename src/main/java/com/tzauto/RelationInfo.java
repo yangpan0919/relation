@@ -10,8 +10,6 @@ public class RelationInfo {
 
     //主键ID
     private SimpleIntegerProperty id;
-    //批次
-    private SimpleStringProperty lot;
     //序号
     private SimpleStringProperty fixtureno;
 
@@ -50,32 +48,18 @@ public class RelationInfo {
         this.id.set(id);
     }
 
-    public RelationInfo(String lot, String materialNumber, String recipeName) {
-        this.lot = new SimpleStringProperty(lot);
+    public RelationInfo( String materialNumber, String recipeName) {
+
         this.recipeName = new SimpleStringProperty(recipeName);
         this.materialNumber = new SimpleStringProperty(materialNumber);
 
     }
-    public RelationInfo(String lot, String materialNumber, String recipeName,Integer id,String fixtureno) {
+    public RelationInfo( String materialNumber, String recipeName,Integer id,String fixtureno) {
         this.id = new SimpleIntegerProperty(id);
-        this.lot = new SimpleStringProperty(lot);
         this.recipeName = new SimpleStringProperty(recipeName);
         this.materialNumber = new SimpleStringProperty(materialNumber);
         this.fixtureno = new SimpleStringProperty(fixtureno);
 
-    }
-
-
-    public String getLot() {
-        return lot.get();
-    }
-
-    public SimpleStringProperty lotProperty() {
-        return lot;
-    }
-
-    public void setLot(String lot) {
-        this.lot.set(lot);
     }
 
     public String getMaterialNumber() {

@@ -29,7 +29,11 @@ public class MainServer {
     ParmView parmView;
 
     public List<RelationEntity> getAll() {
-        return mainMapping.getAll();
+        List<RelationEntity> all = mainMapping.getAll();
+        all.stream().forEach(x->{
+            x.setRecipeName(x.getRecipeName().substring(0,x.getRecipeName().length()-4));
+        });
+        return all;
     }
 
     public void delete(int id) {
@@ -40,7 +44,7 @@ public class MainServer {
 
     public void active(RelationEntity relationEntity) {
 
-        if (relationEntity.getLot().equals("") || relationEntity.getRecipeName().equals("")
+        if (relationEntity.getRecipeName().equals("")
                 || relationEntity.getMaterialNumber().equals("") || relationEntity.getFixtureno().equals("")) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "请将内容填写完整！！！");
             return;
@@ -53,12 +57,14 @@ public class MainServer {
                 CommonUiUtil.alert(Alert.AlertType.INFORMATION, "相同的批号，料号，序号的记录已存在，删除后可进行添加！！！");
                 return;
             }
+            relationEntity.setRecipeName(relationEntity.getRecipeName()+".xml");
             mainMapping.add(relationEntity);
         } else {
             if (query != null && (!query.getId().equals(relationEntity.getId()))) {
                 CommonUiUtil.alert(Alert.AlertType.INFORMATION, "相同的批号，料号，序号的记录已存在，删除后可进行修改！！！");
                 return;
             }
+            relationEntity.setRecipeName(relationEntity.getRecipeName()+".xml");
             mainMapping.update(relationEntity);
         }
 
