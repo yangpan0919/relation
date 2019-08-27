@@ -34,6 +34,8 @@ public class PlasmaHost extends EquipModel {
     public static List<String> lotList;
     public static List<String> userList;
 
+    Map<String, String> productionMap;
+
     static {
         lotList = new ArrayList<>();
         String textPath = "D:\\EAP\\notUpload.txt";
@@ -79,7 +81,7 @@ public class PlasmaHost extends EquipModel {
                 tmpString = tmpString.trim();
                 String[] split = tmpString.split(",");
                 for (String s : split) {
-                    lotList.add(s.trim());
+                    userList.add(s.trim());
                 }
             }
         } catch (Exception e) {
@@ -138,6 +140,70 @@ public class PlasmaHost extends EquipModel {
     public String stopEquip() {
         logger.info("执行了stopEquip方法");
         return null;
+    }
+
+    public Map getSpecificData(Map<String, String> dataIdMap) {
+        Map<String, String> result;
+        String lot = dataIdMap.get("lot");
+        String createEmp = dataIdMap.get("createEmp");
+
+        int start = 80000;
+        int end = 203000;
+        LocalDateTime now = LocalDateTime.now();
+
+        String classInfo = "0"; //白班
+        int nowTime = Integer.parseInt(now.format(AvaryAxisUtil.dtfHHmmss));
+        if (start > nowTime || end < nowTime) {
+            classInfo = "1";   //夜班
+        }
+        String result1 = "";
+        try {
+
+            result1 = AvaryAxisUtil.tableQuery(tableNum, deviceCode, classInfo);
+            if (result1 == null || result1.trim().equals("null")) {
+                String result2 = AvaryAxisUtil.getOrderNum(classInfo);
+                if (result2 == null) {
+                    logger.error("报表数据上传中，无法获取到生產單號");
+                    UiLogUtil.getInstance().appendLog2EventTab(deviceCode, "无法获取到生產單號");
+                    result = new HashMap<>();
+                    result.put("error", "无法获取到生產單號");
+                    return result;
+                }
+                result1 = result2;
+                String result3 = AvaryAxisUtil.insertMasterTable(result2, "1", deviceCode, tableNum, classInfo, "001", now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), createEmp, tableNum);  // 創建工號
+                if (!"".equals(result3)) {
+                    logger.error("插入主表數據失败" + result3);
+                    UiLogUtil.getInstance().appendLog2EventTab(deviceCode, "报表数据上传中，插入主表數據失败");
+                    result = new HashMap<>();
+                    result.put("error", "无法获取到生產單號");
+                    return result;
+                }
+
+            }
+            productionMap = new HashMap<>();
+            productionMap.put("PaperNo", result1);
+            productionMap = AvaryAxisUtil.getParmByLotNum(lot);
+            if (productionMap.size() == 0) {
+                logger.error("根據批號獲取料號,層別,數量等信息失敗");
+                result = new HashMap<>();
+                result.put("error", "根據批號獲取料號,層別,數量等信息失敗");
+                return result;
+            }
+            Map map = AvaryAxisUtil.getParmByLotNumAndLayer(lot, tableNum, productionMap.get("Layer"));
+            if (map.size() == 0) {
+                logger.error("根據 批號,層別 帶出 料號,在製層,途程序,主途程序,制程,主配件,層別名稱,第幾次過站,工令,BOM資料 失败");
+                result = new HashMap<>();
+                result.put("error", "根據 批號,層別 帶出 料號,在製層,途程序,主途程序,制程,主配件,層別名稱,第幾次過站,工令,BOM資料 失败");
+                return result;
+            }
+        } catch (Exception e) {
+            logger.error("webservice 调用失败！！！", e);
+            result = new HashMap<>();
+            result.put("error", "webservice 调用失败！！！");
+            return result;
+        }
+
+        return productionMap;
     }
 
     @Override
@@ -288,20 +354,22 @@ public class PlasmaHost extends EquipModel {
     @Override
     public String deleteRecipe(String recipeName) {
         logger.info("执行了deleteRecipe方法");
-        synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
-            try {
-                List<String> result = iSecsHost.executeCommand("dos \"del /q " + equipRecipePath + "\\*.xml*\"");
-                for (String str : result) {
-                    if ("done".equals(str)) {
-                        return "0";
-                    }
-                }
-                return "删除失败";
-            } catch (Exception e) {
-                logger.error("Delete recipe " + recipeName + " error:" + e.getMessage());
-                return "删除失败";
-            }
-        }
+        //不需要删除recipe，因为正在选中的程序不能删除，所以在选择程序之后再删除没有使用的程序
+        return "0";
+//        synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
+//            try {
+//                List<String> result = iSecsHost.executeCommand("dos \"del /q " + equipRecipePath + "\\*.xml*\"");
+//                for (String str : result) {
+//                    if ("done".equals(str)) {
+//                        return "0";
+//                    }
+//                }
+//                return "删除失败";
+//            } catch (Exception e) {
+//                logger.error("Delete recipe " + recipeName + " error:" + e.getMessage());
+//                return "删除失败";
+//            }
+//        }
     }
 
     //机台选择程序其他程序之后删除不用的程序
@@ -320,45 +388,24 @@ public class PlasmaHost extends EquipModel {
     @Override
     public String selectRecipe(String recipeName) {
         logger.info("执行了selectRecipe方法,参数为：" + recipeName);
-        //todo
         synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
             try {
                 iSecsHost.executeCommand("playback materialNumber.txt");
                 Thread.sleep(500);
-//                iSecsHost.executeCommand("write materialNumber " + this.materialNumber);
-                char[] chars = this.materialNumber.toCharArray();
-                for (int i = 0; i < chars.length; i++) {
-                    char aChar = chars[i];
-                    if (Character.isLowerCase(aChar)) {
-                        iSecsHost.executeCommand("replay " + aChar + aChar + ".exe");
-                    } else {
-                        iSecsHost.executeCommand("replay " + aChar + ".exe");
-                    }
-                }
-//                iSecsHost.executeCommand("replay enter.exe");
-//                Thread.sleep(500);
+                iSecsHost.executeCommand("write mnum " + this.materialNumber);
+                Thread.sleep(500);
                 iSecsHost.executeCommand("playback ok.txt");
                 Thread.sleep(500);
                 iSecsHost.executeCommand("playback lot.txt");
                 Thread.sleep(500);
-//                iSecsHost.executeCommand("write lot " + this.lotId);
-                chars = this.lotId.toCharArray();
-                for (int i = 0; i < chars.length; i++) {
-                    char aChar = chars[i];
-                    if (Character.isLowerCase(aChar)) {
-                        iSecsHost.executeCommand("replay " + aChar + aChar + ".exe");
-                    } else {
-                        iSecsHost.executeCommand("replay " + aChar + ".exe");
-                    }
-                }
+                iSecsHost.executeCommand("write mnum " + this.lotId);
+                Thread.sleep(500);
                 iSecsHost.executeCommand("playback ok.txt");
+
                 if (noSelectRecipe) {
+                    logger.info("程序已经是那个了，所以不用换了");
                     return "0";
                 }
-
-//                Thread.sleep(500);
-
-//                iSecsHost.executeCommand("replay enter.exe");
                 Thread.sleep(500);
 
                 iSecsHost.executeCommand("playback recipe1.txt");//调程式第一步
@@ -392,26 +439,6 @@ public class PlasmaHost extends EquipModel {
                 }
 
                 return "0";
-//                List<String> result = iSecsHost.executeCommand("playback selrecipe.txt");
-//
-//                Thread.sleep(900);
-//                iSecsHost.executeCommand("write lot " + this.lotId);
-////                iSecsHost.executeCommand("dialog \"Lot No\" write " + lotId);
-//                iSecsHost.executeCommand("replay enter.exe");
-//                Thread.sleep(1800);
-//                iSecsHost.executeCommand("playback clearpartno.txt");
-//                iSecsHost.executeCommand("dialog \"OPEN FILE\" write " + equipRecipePath + "\\" + recipeName);
-//                result = iSecsHost.executeCommand("dialog \"OPEN FILE\" action \"&Open\"");
-//                for (String str : result) {
-//                    if ("done".equals(str)) {
-//                        ppExecName = recipeName;
-//                        return "0";
-//                    }
-//                    if (str.contains("rror")) {
-//                        return "选中失败";
-//                    }
-//                }
-//                return "选中失败";
             } catch (Exception e) {
                 logger.error("Select recipe " + recipeName + " error:" + e.getMessage());
                 return "选中失败";
@@ -481,7 +508,7 @@ public class PlasmaHost extends EquipModel {
                 List<String> pchkColors = this.iSecsHost.executeCommand("readrectcolor 21 447 23 449");
                 for (String startColorTemp : pchkColors) {
                     if (startColorTemp.equals("0x7fff00")) {
-                        equipStatus = "run";
+                        equipStatus = "Run";
                         flag = false;
                         break;
                     }
@@ -555,19 +582,33 @@ public class PlasmaHost extends EquipModel {
          ModifyEmpid	最後修改人員
          ModifyTime	最後修改時間
          */
-        String result1 = getMainTableName();
-        if (result1.equals("1")) {
-            return false;
-        }
-        Map<String, String> productionMap = AvaryAxisUtil.getProductionMap(lotId, tableNum, deviceCode);
+
         String item2 = "";
         String item4 = "";
         String item5 = "";
         String item6 = "";
+        String PartNum = productionMap.get("PartNum");
+        String WorkNo = productionMap.get("WorkNo");
+        String LayerName = productionMap.get("LayerName");
+        String Layer = productionMap.get("Layer");
+        String Serial = productionMap.get("Serial");
+        String MainSerial = productionMap.get("MainSerial");
+        String OrderId = productionMap.get("OrderId");
+        String IsMain = productionMap.get("主配件");
+        String PaperNo = productionMap.get("PaperNo");
+
+        PartNum = PartNum == null ? "" : PartNum;
+        WorkNo = WorkNo == null ? "" : WorkNo;
+        LayerName = LayerName == null ? "" : LayerName;
+        Layer = Layer == null ? "" : Layer;
+        Serial = Serial == null ? "" : Serial;
+        MainSerial = MainSerial == null ? "" : MainSerial;
+        OrderId = OrderId == null ? "" : OrderId;
+        IsMain = IsMain == null ? "" : IsMain;
 //        "PaperNo|MacState|StartTime|EndTime|Lotnum|Layer|MainSerial|Partnum|WorkNo|SfcLayer|LayerName|Serial|OrderId|Item1|Qty|IsOk|Item2|Item4|Item5|Item6|CreateEmpid|CreateTime"
 
-        String result = AvaryAxisUtil.insertTable(result1, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, productionMap.get("Layer"), productionMap.get("MainSerial"),
-                productionMap.get("PartNum"), productionMap.get("WorkNo"), productionMap.get("Layer"), productionMap.get("LayerName"), productionMap.get("Serial"), productionMap.get("OrderId"), recipeName, productNum,
+        String result = AvaryAxisUtil.insertTable(PaperNo, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, Layer, MainSerial,
+                PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeName, productNum,
                 isFirstPro ? "1" : "0", item2, item4, item5, item6, opId
         );
 //        String result = AvaryAxisUtil.insertTable(result1, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, map4.get("Layer"), map5.get("MainSerial"),
