@@ -20,6 +20,5 @@ public interface MainMapping {
 
     RelationEntity query(RelationEntity relationEntity);
 
-    RelationEntity queryForUpdate(RelationEntity relationEntity);
-
+    String queryUser(String name, String passWord);
 }

@@ -24,5 +24,10 @@
           material_number = #{materialNumber}
 
     </select>
+    <select id="queryUser" resultType="java.lang.String">
+ select login_name from  sys_user where login_name=#{name} and
+ password = #{passWord}
+
+    </select>
 
 </mapper>

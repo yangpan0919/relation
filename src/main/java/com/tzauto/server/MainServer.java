@@ -1,13 +1,11 @@
 package com.tzauto.server;
 
-import com.tzauto.CommonUiUtil;
-import com.tzauto.MainController;
-import com.tzauto.ParmView;
-import com.tzauto.RelationApplication;
+import com.tzauto.*;
 import com.tzauto.dao.MainMapping;
 import com.tzauto.entity.RelationEntity;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,12 @@ public class MainServer {
     MainMapping mainMapping;
     @Autowired
     ParmView parmView;
+    @Autowired
+    LoginView loginView;
+    @Autowired
+    MainView mainView;
+    @Autowired
+    LoginController loginController;
 
     public List<RelationEntity> getAll() {
         List<RelationEntity> all = mainMapping.getAll();
@@ -71,5 +75,21 @@ public class MainServer {
         parmView.getStage().close();
 
         mainController.flushData();
+    }
+
+    public void login() {
+        String name =loginController.getUserName().getText();
+        String passWord =loginController.getPassword().getText();
+        if(name.equals("")||passWord.equals("")){
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION,"请输入用户名或密码!");
+            return ;
+        }
+        name =  mainMapping.queryUser(name,passWord);
+        if(name == null){
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION,"用户名或密码错误!");
+            return ;
+        }
+        loginView.getStage().close();
+        RelationApplication.showView(MainView.class,null,"关系维护",null, Modality.NONE);
     }
 }

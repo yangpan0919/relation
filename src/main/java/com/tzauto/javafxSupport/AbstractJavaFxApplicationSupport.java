@@ -322,7 +322,9 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
             GUIState.getStage().setScene(GUIState.getScene());
 
             applyEnvPropsToView();
-
+            if(view.getStage() == null){
+                view.setStage(GUIState.getStage());
+            }
             GUIState.getStage().getIcons().addAll(icons);
             GUIState.getStage().show();
 
