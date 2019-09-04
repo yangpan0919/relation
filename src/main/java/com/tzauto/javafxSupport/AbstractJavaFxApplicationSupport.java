@@ -129,6 +129,7 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
             newStage.initStyle(view.getDefaultStyle());
             view.setStage(newStage);
             newStage.showAndWait();
+
         } else {
             newStage = view.getStage();
             newStage.showAndWait();
