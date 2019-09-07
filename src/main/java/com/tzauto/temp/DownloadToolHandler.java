@@ -114,6 +114,8 @@ public class DownloadToolHandler extends ChannelInboundHandlerAdapter {
                                 parmMap.put("lot2", lotNo2);
                             }
                             Map<String, String> parmByLotNum = equipModel.getSpecificData(parmMap);
+                            parmByLotNum = new HashMap<>();//!@#$
+                            parmByLotNum.put("PartNum","APKURHIW5K3E");
                             if (parmByLotNum.get("error") != null) {
                                 new ISecsHost(equipModel.remoteIPAddress, GlobalConstants.getProperty("DOWNLOAD_TOOL_RETURN_PORT"), "", deviceCode).sendSocketMsg(toUTF(parmByLotNum.get("error")) + " webservice message error!!!");
                                 sqlSession.close();
@@ -121,6 +123,8 @@ public class DownloadToolHandler extends ChannelInboundHandlerAdapter {
                             }
                             materialNumber = parmByLotNum.get("PartNum");
                             if (twoLot) {
+                                equipModel.productionMap2 = new HashMap<>();
+                                equipModel.productionMap2.put("PartNum","APKURHIW5K3E");
                                 materialNumber2 = equipModel.productionMap2.get("PartNum");
                                 equipModel.lotId2 = lotNo2;
                                 equipModel.materialNumber2 = materialNumber2;

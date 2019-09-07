@@ -35,15 +35,6 @@ public class OldPlasmaHost extends EquipModel {
     public static List<String> lotList;
     public static List<String> userList;
 
-    public String productNum2 = "";//第二个数量
-    public String lotId2 = "";//第二个批次
-    public String materialNumber2 = "";//第二个料号
-    public boolean flag = true;//第一次扫码
-
-    Map<String, String> productionMap;
-
-    public Map<String, String> productionMap2;
-
     static {
         lotList = new ArrayList<>();
         String textPath = "D:\\EAP\\notUpload.txt";
@@ -295,19 +286,55 @@ public class OldPlasmaHost extends EquipModel {
     @Override
     public String selectRecipe(String recipeName) {
         logger.info("执行了selectRecipe方法,参数为：" + recipeName);
+        boolean twoLot = StringUtils.isNotEmpty(lotId2);
+        recipeName = recipeName.substring(0, recipeName.length() - 4);
+
+        String tempLotId = null;
+        String tempNum = null;
+        if (twoLot) {
+            tempLotId = this.lotId + "/" + this.lotId2;
+            String temp1;
+            if (this.productNum.length() == 1) {
+                temp1 = "00" + this.productNum;
+            } else if (this.productNum.length() == 2) {
+                temp1 = "0" + this.productNum;
+            } else {
+                temp1 = this.productNum;
+            }
+            String temp2;
+            if (this.productNum.length() == 1) {
+                temp2 = "00" + this.productNum2;
+            } else if (this.productNum.length() == 2) {
+                temp2 = "0" + this.productNum2;
+            } else {
+                temp2 = this.productNum2;
+            }
+            tempNum = temp1 + temp2;
+        } else {
+            tempNum = this.productNum;
+            tempLotId = this.lotId;
+        }
+        if(true){//!@#$
+            return "";
+        }
         synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
             try {
-                for (int i = 0; i < 1; i++) {
+                boolean flag = true;
+                for (int i = 1; i < 7; i++) {
                     String value = iSecsHost.executeCommand("read " + i).get(0);
-                    if (value.equals(recipeName.substring(0, recipeName.length() - 4))) {
+                    if (value.equals(recipeName)) {
                         iSecsHost.executeCommand("playback select" + i + ".txt");
                         iSecsHost.executeCommand("replay enter.exe");
+                        flag = false;
                         break;
                     }
                 }
+                if (flag) {
+                    return "没有发现到需要的程式-->" + recipeName;
+                }
                 //写入数量，批次
-                iSecsHost.executeCommand("write num " + "num");
-                iSecsHost.executeCommand("write lot " + "lot");
+                iSecsHost.executeCommand("write num " + tempNum);
+                iSecsHost.executeCommand("write lot " + tempLotId);
 
 
                 return "程式调取错误，请重试";
@@ -335,6 +362,10 @@ public class OldPlasmaHost extends EquipModel {
 
     @Override
     public String getEquipStatus() {
+        equipStatus = "Idle";//!@#$
+        if (true) {
+            return equipStatus;
+        }
         logger.info("执行了getEquipStatus方法");
         String preEquipStatusTemp = equipStatus;
         synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
@@ -431,19 +462,19 @@ public class OldPlasmaHost extends EquipModel {
         );
         if ("".equals(result)) {
             UiLogUtil.getInstance().appendLog2EventTab(deviceCode, "报表数据上传成功，明細表數據上传成功");
-        }else{
+        } else {
             logger.error("报表数据上传中，明細表數據插入失败：" + result);
         }
         if (StringUtils.isNotEmpty(lotId2) && StringUtils.isNotEmpty(productNum2)) {
-             PartNum = productionMap2.get("PartNum");
-             WorkNo = productionMap2.get("WorkNo");
-             LayerName = productionMap2.get("LayerName");
-             Layer = productionMap2.get("Layer");
-             Serial = productionMap2.get("Serial");
-             MainSerial = productionMap2.get("MainSerial");
-             OrderId = productionMap2.get("OrderId");
-             IsMain = productionMap2.get("主配件");
-             PaperNo = productionMap2.get("PaperNo");
+            PartNum = productionMap2.get("PartNum");
+            WorkNo = productionMap2.get("WorkNo");
+            LayerName = productionMap2.get("LayerName");
+            Layer = productionMap2.get("Layer");
+            Serial = productionMap2.get("Serial");
+            MainSerial = productionMap2.get("MainSerial");
+            OrderId = productionMap2.get("OrderId");
+            IsMain = productionMap2.get("主配件");
+            PaperNo = productionMap2.get("PaperNo");
 
             PartNum = PartNum == null ? "" : PartNum;
             WorkNo = WorkNo == null ? "" : WorkNo;

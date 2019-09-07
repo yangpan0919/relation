@@ -461,7 +461,7 @@ public class PlasmaHost extends EquipModel {
                     } else {
                         temp2 = this.productNum2;
                     }
-                    tempNum = this.productNum + this.productNum2;
+                    tempNum = temp1 + temp2;
                 } else if (num) {
                     tempMaterialNumber = this.materialNumber;
                     tempLotId = this.lotId;
@@ -584,6 +584,10 @@ public class PlasmaHost extends EquipModel {
 
     @Override
     public String getEquipStatus() {
+        equipStatus = "Idle";//!@#$
+        if(true){
+            return equipStatus;
+        }
         logger.info("执行了getEquipStatus方法");
         String preEquipStatusTemp = equipStatus;
         synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
