@@ -1,18 +1,10 @@
 package com.tzauto.temp;
 
 import cn.tzauto.octopus.biz.recipe.domain.Recipe;
-import cn.tzauto.octopus.biz.recipe.domain.RecipePara;
-import cn.tzauto.octopus.biz.recipe.service.RecipeService;
-import cn.tzauto.octopus.common.dataAccess.base.mybatisutil.MybatisSqlSession;
 import cn.tzauto.octopus.common.globalConfig.GlobalConstants;
-import cn.tzauto.octopus.common.resolver.TransferUtil;
-import cn.tzauto.octopus.common.resolver.hitachi.LaserDrillUtil;
-import cn.tzauto.octopus.common.util.ftp.FtpUtil;
 import cn.tzauto.octopus.common.ws.AvaryAxisUtil;
 import cn.tzauto.octopus.gui.guiUtil.UiLogUtil;
-import cn.tzauto.octopus.isecsLayer.domain.EquipModel;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import javax.xml.rpc.ServiceException;
@@ -314,9 +306,6 @@ public class OldPlasmaHost extends EquipModel {
             tempNum = this.productNum;
             tempLotId = this.lotId;
         }
-        if(true){//!@#$
-            return "";
-        }
         synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
             try {
                 boolean flag = true;
@@ -362,27 +351,7 @@ public class OldPlasmaHost extends EquipModel {
 
     @Override
     public String getEquipStatus() {
-        equipStatus = "Idle";//!@#$
-        if (true) {
-            return equipStatus;
-        }
-        logger.info("执行了getEquipStatus方法");
-        String preEquipStatusTemp = equipStatus;
-        synchronized (iSecsHost.iSecsConnection.getSocketClient()) {
-            try {
 
-                boolean flag = true;
-
-            } catch (Exception e) {
-                logger.error("Get equip status error:" + e.getMessage());
-            }
-        }
-        Map map = new HashMap();
-        map.put("EquipStatus", equipStatus);
-        if (!equipStatus.equals(preEquipStatusTemp)) {
-            preEquipStatus = preEquipStatusTemp;
-            changeEquipPanel(map);
-        }
         return equipStatus;
     }
 

@@ -3,33 +3,18 @@ package com.tzauto.temp;
 
 import cn.tzauto.octopus.biz.alarm.domain.AlarmRecord;
 import cn.tzauto.octopus.biz.device.domain.DeviceInfo;
-import cn.tzauto.octopus.biz.device.domain.DeviceInfoExt;
-import cn.tzauto.octopus.biz.device.service.DeviceService;
-import cn.tzauto.octopus.biz.tooling.LaserCrystal;
-import cn.tzauto.octopus.common.dataAccess.base.mybatisutil.MybatisSqlSession;
 import cn.tzauto.octopus.common.globalConfig.GlobalConstants;
-import cn.tzauto.octopus.common.util.tool.FileUtil;
 import cn.tzauto.octopus.common.util.tool.JsonMapper;
-import cn.tzauto.octopus.common.ws.AvaryAxisUtil;
-import cn.tzauto.octopus.gui.guiUtil.UiLogUtil;
-import cn.tzauto.octopus.isecsLayer.domain.EquipModel;
-import cn.tzauto.octopus.isecsLayer.domain.ISecsHost;
 import cn.tzauto.octopus.secsLayer.util.NormalConstant;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
-import javax.xml.rpc.ServiceException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class EquipAlarmHandler extends ChannelInboundHandlerAdapter {
 
@@ -81,6 +66,7 @@ public class EquipAlarmHandler extends ChannelInboundHandlerAdapter {
                 } catch (Exception e) {
                     logger.error("日志解析后上传数据报错：",e);
                 } finally {
+
                     //一批结束之后进行数据重置
                     equipModel.opId = "";
                     equipModel.lotStartTime = "";
@@ -93,6 +79,10 @@ public class EquipAlarmHandler extends ChannelInboundHandlerAdapter {
                     equipModel.materialNumber = "";
                     equipModel.materialNumber2 = "";
                     equipModel.recipeName = "";
+
+                    Map statusmap = new HashMap();
+                    statusmap.put("EquipStatus", "Idle");
+                    equipModel.changeEquipPanel(statusmap);
                 }
             }
             return;
