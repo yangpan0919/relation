@@ -23,7 +23,6 @@ import java.util.Map;
 public class OldPlasmaHost extends EquipModel {
 
     private static Logger logger = Logger.getLogger(OldPlasmaHost.class);
-    private boolean noSelectRecipe = false;
     public static List<String> lotList;
     public static List<String> userList;
 
@@ -94,14 +93,6 @@ public class OldPlasmaHost extends EquipModel {
                 }
             }
         }
-    }
-
-    public boolean isNoSelectRecipe() {
-        return noSelectRecipe;
-    }
-
-    public void setNoSelectRecipe(boolean noSelectRecipe) {
-        this.noSelectRecipe = noSelectRecipe;
     }
 
     public OldPlasmaHost(String devId, String remoteIpAddress, int remoteTcpPort, String deviceType, String iconPath, String equipRecipePath) {
@@ -322,6 +313,12 @@ public class OldPlasmaHost extends EquipModel {
                     return "没有发现到需要的程式-->" + recipeName;
                 }
                 //写入数量，批次
+
+
+                iSecsHost.executeCommand("keyinput " + tempNum);
+                iSecsHost.executeCommand("keyinputenter");
+                iSecsHost.executeCommand("keyinput " + tempLotId);
+
                 iSecsHost.executeCommand("write num " + tempNum);
                 iSecsHost.executeCommand("write lot " + tempLotId);
 
