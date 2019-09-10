@@ -706,11 +706,17 @@ public class PlasmaHost extends EquipModel {
 //        "PaperNo|MacState|StartTime|EndTime|Lotnum|Layer|MainSerial|Partnum|WorkNo|SfcLayer|LayerName|Serial|OrderId|Item1|Qty|IsOk|Item2|Item4|Item5|Item6|CreateEmpid|CreateTime"
 
         String result = "";
+        String recipeNameTemp;
+        if(recipeName.endsWith(".xml")){
+            recipeNameTemp = recipeName.substring(0,recipeName.length() - 4);
+        }else{
+            recipeNameTemp = recipeName;
+        }
         if ("1".equals(GlobalConstants.getProperty("UPDATE_DATA_ONCE"))) {
             LotInfo lotInfo = needUpload(lotId, true);
             if (lotInfo != null) {
                 result = AvaryAxisUtil.insertTable(PaperNo, "正常", lotInfo.getStarttime(), now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, Layer, MainSerial,
-                        PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeName, lotInfo.getLotnum(),
+                        PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeNameTemp, lotInfo.getLotnum(),
                         isFirstPro ? "1" : "0", item2, item4, item5, item6, opId
                 );
                 if ("".equals(result)) {
@@ -721,7 +727,7 @@ public class PlasmaHost extends EquipModel {
             }
         } else {
             result = AvaryAxisUtil.insertTable(PaperNo, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId, Layer, MainSerial,
-                    PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeName, productNum,
+                    PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeNameTemp, productNum,
                     isFirstPro ? "1" : "0", item2, item4, item5, item6, opId
             );
             if ("".equals(result)) {
@@ -755,7 +761,7 @@ public class PlasmaHost extends EquipModel {
                 LotInfo lotInfo = needUpload(lotId, false);
                 if (lotInfo != null) {
                     result = AvaryAxisUtil.insertTable(PaperNo, "正常", lotInfo.getStarttime(), now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId2, Layer, MainSerial,
-                            PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeName, lotInfo.getLotnum(),
+                            PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeNameTemp, lotInfo.getLotnum(),
                             isFirstPro ? "1" : "0", item2, item4, item5, item6, opId
                     );
                     if ("".equals(result)) {
@@ -765,7 +771,7 @@ public class PlasmaHost extends EquipModel {
                 }
             } else {
                 result = AvaryAxisUtil.insertTable(PaperNo, "正常", lotStartTime, now.format(AvaryAxisUtil.dtfyyyyMMddHHmmss), lotId2, Layer, MainSerial,
-                        PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeName, productNum2,
+                        PartNum, WorkNo, Layer, LayerName, Serial, IsMain, OrderId, recipeNameTemp, productNum2,
                         isFirstPro ? "1" : "0", item2, item4, item5, item6, opId
                 );
                 if ("".equals(result)) {
