@@ -444,7 +444,11 @@ public class PlasmaHost extends EquipModel {
                 String tempLotId = null;
                 String tempNum = null;
                 if (twoLot) {
-                    tempMaterialNumber = this.materialNumber + "/" + this.materialNumber2;
+                    if(this.materialNumber.equals(this.materialNumber2)){
+                        tempMaterialNumber = this.materialNumber;
+                    }else{
+                        tempMaterialNumber = this.materialNumber + "/" + this.materialNumber2;
+                    }
                     tempLotId = this.lotId + "/" + this.lotId2;
                     String temp1;
                     if (this.productNum.length() == 1) {
