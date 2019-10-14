@@ -129,6 +129,7 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
             newStage.initStyle(view.getDefaultStyle());
             view.setStage(newStage);
             newStage.showAndWait();
+
         } else {
             newStage = view.getStage();
             newStage.showAndWait();
@@ -167,8 +168,8 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
             }
             Image image = null;
             try {
-                image = new Image(ClassLoader.getSystemResource("logoTaiZhi.png").openStream());
-            } catch (IOException e) {
+                image = new Image(AbstractJavaFxApplicationSupport.class.getResource("/logoTaiZhi.png").toExternalForm());
+            } catch (Exception e) {
                 LOGGER.error("stage icon 加载失败", e);
             }
             stage.getIcons().add(image);
