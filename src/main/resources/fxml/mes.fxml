@@ -33,9 +33,10 @@
                 </TableView>
                 <Pane prefHeight="78.0" prefWidth="620.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <children>
-                        <Button layoutX="32.0" layoutY="1.0" mnemonicParsing="false" onAction="#delete" prefHeight="32.0" prefWidth="67.0" text="删除" />
-                        <Button layoutX="209.0" layoutY="4.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="59.0" text="添加" />
-                        <Button layoutX="392.0" layoutY="4.0" mnemonicParsing="false" onAction="#update" prefHeight="32.0" prefWidth="67.0" text="修改" />
+                        <Button layoutY="4.0" mnemonicParsing="false" onAction="#delete" prefHeight="32.0" prefWidth="67.0" text="删除" />
+                        <Button layoutX="130.0" layoutY="4.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="59.0" text="添加" />
+                        <Button layoutX="261.0" layoutY="4.0" mnemonicParsing="false" onAction="#update" prefHeight="32.0" prefWidth="67.0" text="修改" />
+                        <Button layoutX="399.0" layoutY="4.0" mnemonicParsing="false" onAction="#upload" prefHeight="32.0" prefWidth="67.0" text="上传" />
 
                     </children>
                 </Pane>

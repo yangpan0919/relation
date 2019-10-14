@@ -30,4 +30,27 @@
 
     </select>
 
+    <select id="queryLot" resultType="com.tzauto.entity.LotInfo">
+            select
+            lotid, starttime, lotnum, complete ,firstnum
+              ,TARGET_NUM targetNum
+     ,PAPER_NO paperNo
+     ,LAYER
+     ,MAIN_SERIAL mainSerial
+     ,PART_NUM partNum
+     ,WORK_NO workNo
+     ,LAYER_NAME layerName
+     ,SERIAL
+     ,IS_MAIN isMain
+     ,ORDER_ID orderId
+     ,RECIPE_NAME recipeName
+     ,OP_ID opId
+             from lotinfo where lotid = #{lot};
+    </select>
+    <insert id="lotInfoBak">
+    insert into lotinfobak (select * from lotinfo where lotid = #{lot})
+  </insert>
+    <delete id="deleteLot">
+        delete from  lotinfo where lotid = #{lot}
+  </delete>
 </mapper>

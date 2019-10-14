@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 @FXMLController
 public class MainController implements Initializable {
 
-    public  ObservableList<RelationInfo> list = FXCollections.observableArrayList();
+    public ObservableList<RelationInfo> list = FXCollections.observableArrayList();
 
     public static RelationEntity relationEntity;
 
@@ -40,12 +40,6 @@ public class MainController implements Initializable {
     ParmController parmController;
 
 
-
-
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -56,17 +50,17 @@ public class MainController implements Initializable {
 //            }
 //        });
 
-        dataTable.setRowFactory( tv -> {
+        dataTable.setRowFactory(tv -> {
             TableRow<RelationInfo> row = new TableRow<RelationInfo>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     RelationInfo relationInfo = row.getItem();
-                    relationEntity = new RelationEntity(relationInfo.getId(),relationInfo.getMaterialNumber(),relationInfo.getRecipeName(),relationInfo.getFixtureno());
+                    relationEntity = new RelationEntity(relationInfo.getId(), relationInfo.getMaterialNumber(), relationInfo.getRecipeName(), relationInfo.getFixtureno());
                     parmController.test();
-                    RelationApplication.showView(ParmView.class,null,"输入文本",null, Modality.NONE);
+                    RelationApplication.showView(ParmView.class, null, "输入文本", null, Modality.NONE);
                 }
             });
-            return row ;
+            return row;
         });
         materialNumber.setCellValueFactory(celldata -> celldata.getValue().materialNumberProperty());
         recipeName.setCellValueFactory(celldata -> celldata.getValue().recipeNameProperty());
@@ -76,21 +70,21 @@ public class MainController implements Initializable {
 
     }
 
-    public void flushData(){
+    public void flushData() {
         dataTable.getItems().clear();
         List<RelationEntity> all = mainServer.getAll();
         for (int i = 0; i < all.size(); i++) {
             RelationEntity dataTableProperty = all.get(i);
 
             RelationInfo property = new RelationInfo(dataTableProperty.getMaterialNumber(),
-                    dataTableProperty.getRecipeName(),dataTableProperty.getId(),dataTableProperty.getFixtureno());
+                    dataTableProperty.getRecipeName(), dataTableProperty.getId(), dataTableProperty.getFixtureno());
             list.add(property);
         }
         dataTable.setItems(list);
     }
 
     public void delete(ActionEvent actionEvent) {
-        if(dataTable.getSelectionModel().getSelectedItems().size() == 0){
+        if (dataTable.getSelectionModel().getSelectedItems().size() == 0) {
             return;
         }
         Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
@@ -101,8 +95,8 @@ public class MainController implements Initializable {
         //显示对话框
         Optional<ButtonType> result = alert2.showAndWait();
         //如果点击OK
-        if (result.get() == ButtonType.OK){
-            dataTable.getSelectionModel().getSelectedItems().forEach(x->{
+        if (result.get() == ButtonType.OK) {
+            dataTable.getSelectionModel().getSelectedItems().forEach(x -> {
                 mainServer.delete(x.getId());
 
             });
@@ -112,20 +106,26 @@ public class MainController implements Initializable {
     public void add(ActionEvent actionEvent) {
         relationEntity = new RelationEntity();
         parmController.test();
-        RelationApplication.showView(ParmView.class,null,"输入文本",null, Modality.NONE);
+        RelationApplication.showView(ParmView.class, null, "输入文本", null, Modality.NONE);
 
     }
 
     public void update(ActionEvent actionEvent) {
-        if(dataTable.getSelectionModel().getSelectedItems().size() == 0){
+        if (dataTable.getSelectionModel().getSelectedItems().size() == 0) {
             return;
         }
-        dataTable.getSelectionModel().getSelectedItems().forEach(x->{
+        dataTable.getSelectionModel().getSelectedItems().forEach(x -> {
 
-            relationEntity = new RelationEntity(x.getId(),x.getMaterialNumber(),x.getRecipeName(),x.getFixtureno());
+            relationEntity = new RelationEntity(x.getId(), x.getMaterialNumber(), x.getRecipeName(), x.getFixtureno());
             parmController.test();
-            RelationApplication.showView(ParmView.class,null,"输入文本",null, Modality.NONE);
+            RelationApplication.showView(ParmView.class, null, "输入文本", null, Modality.NONE);
 
         });
+    }
+
+    public void upload(ActionEvent actionEvent) {
+
+        RelationApplication.showView(UploadView.class, null, "上传数据", null, Modality.NONE);
+
     }
 }

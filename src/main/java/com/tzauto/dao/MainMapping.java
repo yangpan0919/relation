@@ -1,5 +1,6 @@
 package com.tzauto.dao;
 
+import com.tzauto.entity.LotInfo;
 import com.tzauto.entity.RelationEntity;
 
 import java.util.List;
@@ -21,4 +22,11 @@ public interface MainMapping {
     RelationEntity query(RelationEntity relationEntity);
 
     String queryUser(String name, String passWord);
+
+    LotInfo queryLot(String lot);
+
+    void lotInfoBak(String lot);
+
+    void deleteLot(String lot);
+
 }
