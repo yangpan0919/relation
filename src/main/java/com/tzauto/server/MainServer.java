@@ -5,22 +5,14 @@ import com.tzauto.dao.MainMapping;
 import com.tzauto.entity.LotInfo;
 import com.tzauto.entity.RelationEntity;
 import com.tzauto.utils.AvaryAxisUtil;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.rpc.ServiceException;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.SQLNonTransientException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalUnit;
+
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -28,6 +20,8 @@ import java.util.regex.Pattern;
  */
 @Service
 public class MainServer {
+
+    private static final Logger logger = Logger.getLogger(MainServer.class);
 
 
     @Autowired
@@ -160,6 +154,9 @@ public class MainServer {
             mainMapping.lotInfoBak(lot);
             mainMapping.deleteLot(lot);
             uploadView.getStage().close();
+            StringBuilder sb = new StringBuilder();
+            sb.append("用户：").append(loginController.getUserName().getText()).append(" 手动上传数据-->").append(lotInfo.toString());
+            logger.info(sb.toString());
             return;
         }
         CommonUiUtil.alert(Alert.AlertType.WARNING, "信息上传失败!");

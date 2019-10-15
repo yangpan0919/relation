@@ -172,4 +172,27 @@ public class LotInfo {
     public void setLotnum(String lotnum) {
         this.lotnum = lotnum;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "批次='" + lotid + '\'' +
+                ", 开始时间='" + starttime + '\'' +
+                ", 结束时间='" + endTime + '\'' +
+                ", lotnum='" + lotnum + '\'' +
+                ", firstnum='" + firstnum + '\'' +
+                ", 目标数量='" + targetNum + '\'' +
+                ", 单号='" + paperNo + '\'' +
+                ", 層別='" + layer + '\'' +
+                ", 主途程序='" + mainSerial + '\'' +
+                ", 料號='" + partNum + '\'' +
+                ", 工令='" + workNo + '\'' +
+                ", 層別名稱='" + layerName + '\'' +
+                ", 途程序='" + serial + '\'' +
+                ", 是否主件='" + isMain + '\'' +
+                ", 第几次过站='" + orderId + '\'' +
+                ", 程式名='" + recipeName + '\'' +
+                ", 操作人员='" + opId + '\'' +
+                '}';
+    }
 }
