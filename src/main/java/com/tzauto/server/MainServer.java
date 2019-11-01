@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -106,36 +107,49 @@ public class MainServer {
             "([0-1][0-9]|2[0-3])([0-5][0-9])([0-5][0-9])$");
 
 //    public static void main(String[] args) {
-//        DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
-//        LocalDateTime now = LocalDateTime.now();
-//
-//        for (int i = 0; i < 10000; i++) {
-//            String format = now.format(yyyyMMdd);
-//            String s = format + "121212";
-//            boolean matches = p.matcher(s).matches();
-//
-//            if (!matches) {
-//                System.out.println("+++++++++++++++++++++++++++++++++++");
-//                System.out.println(format + ":" + matches);
-//            }
-//            now = now.plusDays(1);
-//
+//        String starttime = "20191101115501";
+//        String endTime = "20181101120400";
+//        LocalDateTime start = LocalDateTime.of(Integer.parseInt(starttime.substring(0, 4)), Integer.parseInt(starttime.substring(4, 6)), Integer.parseInt(starttime.substring(6, 8)), Integer.parseInt(starttime.substring(8, 10)), Integer.parseInt(starttime.substring(10, 12)), Integer.parseInt(starttime.substring(12, 14)));
+//        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endTime.substring(0, 4)), Integer.parseInt(endTime.substring(4, 6)), Integer.parseInt(endTime.substring(6, 8)), Integer.parseInt(endTime.substring(8, 10)), Integer.parseInt(endTime.substring(10, 12)), Integer.parseInt(endTime.substring(12, 14)));
+//        start = start.plusMinutes(10);
+//        if (end.isBefore(start)) {
+//            System.out.println("结束时间过早!");
 //        }
 //
 //    }
 
     public void upload(String lot, String endTime) {
 
-        LotInfo lotInfo = mainMapping.queryLot(lot);
-        if (lotInfo == null) {
-            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "没有该批次信息!");
-            return;
-        }
         if (!pattern.matcher(endTime).matches()) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "结束时间格式不正确!");
             return;
         }
 
+
+        LotInfo lotInfo = mainMapping.queryLot(lot);
+        if (lotInfo == null) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "没有该批次信息!");
+            return;
+        }
+
+        String starttime = lotInfo.getStarttime();
+
+        try {
+            LocalDateTime start = LocalDateTime.of(Integer.parseInt(starttime.substring(0, 4)), Integer.parseInt(starttime.substring(4, 6)), Integer.parseInt(starttime.substring(6, 8)), Integer.parseInt(starttime.substring(8, 10)), Integer.parseInt(starttime.substring(10, 12)), Integer.parseInt(starttime.substring(12, 14)));
+            LocalDateTime end = LocalDateTime.of(Integer.parseInt(endTime.substring(0, 4)), Integer.parseInt(endTime.substring(4, 6)), Integer.parseInt(endTime.substring(6, 8)), Integer.parseInt(endTime.substring(8, 10)), Integer.parseInt(endTime.substring(10, 12)), Integer.parseInt(endTime.substring(12, 14)));
+            start = start.plusMinutes(10);
+            LocalDateTime now = LocalDateTime.now();
+            if (end.isBefore(start)) {
+                CommonUiUtil.alert(Alert.AlertType.INFORMATION, "结束时间过早!  请重新输入结束时间");
+                return;
+            } else if (now.isBefore(end)) {
+                CommonUiUtil.alert(Alert.AlertType.INFORMATION, "结束时间晚于现在时间!  请重新输入结束时间");
+                return;
+            }
+        } catch (Exception e) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "时间解析错误!");
+            return;
+        }
         lotInfo.setEndTime(endTime);
         String result = null;
         try {
@@ -146,7 +160,7 @@ public class MainServer {
 
 
         } catch (Throwable e) {
-            e.printStackTrace();
+            logger.error("上传失败", e);
         }
 
         if ("OK".equals(result)) {
