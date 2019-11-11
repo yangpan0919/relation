@@ -4,7 +4,7 @@ spring:
 
   datasource:
 #   数据源基本配置
-    username: mysql
+    username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/octopus?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
