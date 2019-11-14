@@ -6,14 +6,17 @@ import com.tzauto.entity.LotInfo;
 import com.tzauto.entity.RelationEntity;
 import com.tzauto.utils.AvaryAxisUtil;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -35,6 +38,8 @@ public class MainServer {
     LoginView loginView;
     @Autowired
     UploadView uploadView;
+    @Autowired
+    AddDataView addDataView;
     @Autowired
     MainView mainView;
     @Autowired
@@ -156,7 +161,7 @@ public class MainServer {
             result = AvaryAxisUtil.insertTable(lotInfo.getPaperNo(), "正常", lotInfo.getStarttime(), endTime, lot, lotInfo.getLayer()
                     , lotInfo.getMainSerial(), lotInfo.getPartNum(), lotInfo.getWorkNo()
                     , lotInfo.getLayer(), lotInfo.getLayerName(), lotInfo.getSerial(), lotInfo.getIsMain(), lotInfo.getOrderId()
-                    , lotInfo.getRecipeName(), lotInfo.getTargetNum(), "0", "", "", "", "", lotInfo.getOpId());
+                    , lotInfo.getRecipeName(), lotInfo.getTargetNum(), "0", lotInfo.getItem2(), lotInfo.getItem4(), lotInfo.getItem5(), lotInfo.getItem6(), lotInfo.getOpId());
 
 
         } catch (Throwable e) {
@@ -177,5 +182,41 @@ public class MainServer {
         return;
 
 
+    }
+
+    /**
+     * 进行以下数据在lotinfo中的修改
+     * Item2	燒焦(PNL)
+     * Item4	皺褶(PNL)
+     * Item5	異色(PNL)
+     * Item6	其它(PNL)
+     */
+    public boolean addData(String lot, String item2, String item4, String item5, String item6) {
+        LotInfo lotInfo = mainMapping.queryLot(lot);
+        if (lotInfo == null) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "没有该批次信息!");
+            return false;
+        }
+        if (StringUtils.isEmpty(item2) && StringUtils.isEmpty(item4) && StringUtils.isEmpty(item5) && StringUtils.isEmpty(item6)) {
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            //设置内容
+            alert2.setHeaderText("确认要将批次:" + lot + "的数据清空吗？");
+            //显示对话框
+            Optional<ButtonType> result = alert2.showAndWait();
+            //如果点击OK直接覆盖空值
+            if (result.get() != ButtonType.OK) {
+                return false;
+            }
+        }
+        try {
+            mainMapping.addData(lot, item2, item4, item5, item6);
+            addDataView.getStage().close();
+            return true;
+        } catch (Exception e) {
+            logger.error("修改数据失败", e);
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "系统出错!");
+
+        }
+        return false;
     }
 }

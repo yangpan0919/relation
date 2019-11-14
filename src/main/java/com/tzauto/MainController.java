@@ -122,6 +122,9 @@ public class MainController implements Initializable {
 
         });
     }
+    public void addData(ActionEvent actionEvent) {
+        RelationApplication.showView(AddDataView.class, null, "添加数据", null, Modality.NONE);
+    }
 
     public void upload(ActionEvent actionEvent) {
 

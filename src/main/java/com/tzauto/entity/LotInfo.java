@@ -30,6 +30,10 @@ public class LotInfo {
     private String orderId;
     private String recipeName;
     private String opId;
+    private String item2;
+    private String item4;
+    private String item5;
+    private String item6;
     public String getTargetNum() {
         return targetNum;
     }
@@ -161,6 +165,38 @@ public class LotInfo {
         return starttime;
     }
 
+    public String getItem2() {
+        return item2;
+    }
+
+    public void setItem2(String item2) {
+        this.item2 = item2;
+    }
+
+    public String getItem4() {
+        return item4;
+    }
+
+    public void setItem4(String item4) {
+        this.item4 = item4;
+    }
+
+    public String getItem5() {
+        return item5;
+    }
+
+    public void setItem5(String item5) {
+        this.item5 = item5;
+    }
+
+    public String getItem6() {
+        return item6;
+    }
+
+    public void setItem6(String item6) {
+        this.item6 = item6;
+    }
+
     public void setStarttime(String starttime) {
         this.starttime = starttime;
     }
@@ -193,6 +229,10 @@ public class LotInfo {
                 ", 第几次过站='" + orderId + '\'' +
                 ", 程式名='" + recipeName + '\'' +
                 ", 操作人员='" + opId + '\'' +
+                ", 燒焦(PNL)='" + item2 + '\'' +
+                ", 皺褶(PNL)='" + item4 + '\'' +
+                ", 異色(PNL)='" + item5 + '\'' +
+                ", 其它(PNL)='" + item6 + '\'' +
                 '}';
     }
 }
