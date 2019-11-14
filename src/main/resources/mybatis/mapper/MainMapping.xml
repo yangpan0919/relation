@@ -49,7 +49,6 @@
      ,item4 item4
      ,item5 item5
      ,item6 item6
-
              from lotinfo where lotid = #{lot};
     </select>
     <insert id="lotInfoBak">
