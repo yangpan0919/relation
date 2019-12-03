@@ -47,6 +47,12 @@
      ,OP_ID opId
              from lotinfo where lotid = #{lot};
     </select>
+    <select id="selectMix" resultType="com.tzauto.entity.MixInfo">
+         select lot,complete,layer from mix_info where lot = #{lot} and layer = #{layer}
+    </select>
+    <update id="updateMix">
+        update mix_info set complete = #{complete}  where lot = #{lot} and layer = #{layer}
+    </update>
     <insert id="lotInfoBak">
     insert into lotinfobak (select * from lotinfo where lotid = #{lot})
   </insert>

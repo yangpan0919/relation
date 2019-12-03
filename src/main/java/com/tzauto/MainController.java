@@ -128,4 +128,13 @@ public class MainController implements Initializable {
         RelationApplication.showView(UploadView.class, null, "上传数据", null, Modality.NONE);
 
     }
+
+    /**
+     * 解混按钮
+     * @param actionEvent
+     */
+    public void mix(ActionEvent actionEvent) {
+
+        RelationApplication.showView(MixView.class, null, "解混", null, Modality.NONE);
+    }
 }

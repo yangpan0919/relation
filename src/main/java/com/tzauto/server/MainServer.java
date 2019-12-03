@@ -3,6 +3,7 @@ package com.tzauto.server;
 import com.tzauto.*;
 import com.tzauto.dao.MainMapping;
 import com.tzauto.entity.LotInfo;
+import com.tzauto.entity.MixInfo;
 import com.tzauto.entity.RelationEntity;
 import com.tzauto.utils.AvaryAxisUtil;
 import javafx.scene.control.Alert;
@@ -38,7 +39,11 @@ public class MainServer {
     @Autowired
     MainView mainView;
     @Autowired
+    MixView mixView;
+    @Autowired
     LoginController loginController;
+    @Autowired
+    MixController mixController;
 
     public List<RelationEntity> getAll() {
         List<RelationEntity> all = mainMapping.getAll();
@@ -176,6 +181,27 @@ public class MainServer {
         CommonUiUtil.alert(Alert.AlertType.WARNING, "信息上传失败!");
         return;
 
+
+    }
+
+    /**
+     * 解混
+     *
+     * @param lot
+     * @param layer
+     */
+    public void mix(String lot, String layer) {
+        MixInfo mixInfo = mainMapping.selectMix(lot, layer);
+        if (mixInfo == null) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "没有该批次需要解混的信息!");
+        } else if (mixInfo.getComplete() == 1) {
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "该批次已经解混了!");
+        } else {
+            mainMapping.updateMix(lot, layer, 1);
+            CommonUiUtil.alert(Alert.AlertType.INFORMATION, "解混成功");
+            mixView.getStage().close();
+            mixController.clearData();
+        }
 
     }
 }

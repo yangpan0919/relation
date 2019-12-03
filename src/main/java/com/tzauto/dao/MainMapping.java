@@ -1,6 +1,7 @@
 package com.tzauto.dao;
 
 import com.tzauto.entity.LotInfo;
+import com.tzauto.entity.MixInfo;
 import com.tzauto.entity.RelationEntity;
 
 import java.util.List;
@@ -29,4 +30,7 @@ public interface MainMapping {
 
     void deleteLot(String lot);
 
+    MixInfo selectMix(String lot, String layer);
+
+    void updateMix(String lot, String layer, int complete);
 }
