@@ -32,8 +32,8 @@ public class AvaryAxisUtil {
     public static DateTimeFormatter dtfyyyy_MM_dd = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     public static Map<String, Map> mesInterfaceParaMap = new HashMap<>();
 
-    //    private static final String url = "http://szecpw014.eavarytech.com:8001/WebServiceForSZ/Service1.asmx";   //URL地址
-    private static final String url = "http://qhecpw001.eavarytech.com:8001/WebServiceForQHD/Service1.asmx";   //URL地址
+    private static String url = "http://szecpw014.eavarytech.com:8001/WebServiceForSZ/Service1.asmx";   //URL地址
+    //    private static final String url = "http://qhecpw001.eavarytech.com:8001/WebServiceForQHD/Service1.asmx";   //URL地址
     private static final String namespace = "http://tempuri.org/";
 
     //    private static final String namespace = GlobalConstants.getProperty("AVARY_MES_WS_NAMESPACE");
@@ -71,8 +71,10 @@ public class AvaryAxisUtil {
                         }
                     });
                     mesInterfaceParaMap.put(deviceType, parmsNamesTemp);
-                    int i = 1;
-                    i++;
+                    String url1 = (String) parmsNamesTemp.get("url");
+                    if (url1 != null) {
+                        url = url1;
+                    }
                     /**
                      * workLicense=0010,HR001
                      * getProductionCondition=0005,PA001
@@ -102,6 +104,7 @@ public class AvaryAxisUtil {
                 }
             }
         }
+
     }
 
     //plasma
