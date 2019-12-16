@@ -6,24 +6,26 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0"
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0"
            prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.tzauto.AddDataController">
     <children>
-        <Pane prefHeight="253.0" prefWidth="455.0">
+        <Pane prefHeight="357.0" prefWidth="375.0">
             <children>
-                <Button layoutX="126.0" layoutY="254.0" mnemonicParsing="false" onAction="#action" prefHeight="45.0"
+                <Button layoutX="126.0" layoutY="293.0" mnemonicParsing="false" onAction="#action" prefHeight="45.0"
                         prefWidth="123.0" text="修改"/>
-                <TextField fx:id="lot" layoutX="153.0" layoutY="16.0" prefHeight="26.0" prefWidth="156.0"/>
-                <TextField fx:id="item2" layoutX="153.0" layoutY="60.0" prefHeight="26.0" prefWidth="156.0"/>
-                <TextField fx:id="item4" layoutX="153.0" layoutY="104.0" prefHeight="26.0" prefWidth="156.0"/>
-                <TextField fx:id="item5" layoutX="153.0" layoutY="147.0" prefHeight="26.0" prefWidth="156.0"/>
-                <TextField fx:id="item6" layoutX="153.0" layoutY="192.0" prefHeight="26.0" prefWidth="156.0"/>
-                <Label layoutX="75.0" layoutY="20.0" text="批次:"/>
-                <Label layoutX="63.0" layoutY="64.0" text="燒焦(PNL):"/>
-                <Label layoutX="63.0" layoutY="108.0" text="皺褶(PNL):"/>
-                <Label layoutX="63.0" layoutY="151.0" text="異色(PNL):"/>
-                <Label layoutX="63.0" layoutY="196.0" text="其它(PNL):"/>
+                <TextField fx:id="lot" layoutX="155.0" layoutY="16.0" prefHeight="26.0" prefWidth="156.0"/>
+                <TextField fx:id="isMain" layoutX="155.0" layoutY="59.0" prefHeight="26.0" prefWidth="156.0"/>
+                <TextField fx:id="item2" layoutX="155.0" layoutY="103.0" prefHeight="26.0" prefWidth="156.0"/>
+                <TextField fx:id="item4" layoutX="155.0" layoutY="147.0" prefHeight="26.0" prefWidth="156.0"/>
+                <TextField fx:id="item5" layoutX="155.0" layoutY="190.0" prefHeight="26.0" prefWidth="156.0"/>
+                <TextField fx:id="item6" layoutX="155.0" layoutY="235.0" prefHeight="26.0" prefWidth="156.0"/>
+                <Label layoutX="75.0" layoutY="20.0" text="批 次:"/>
+                <Label layoutX="65.0" layoutY="63.0" text="自主检:"/>
+                <Label layoutX="65.0" layoutY="107.0" text="燒焦(PNL):"/>
+                <Label layoutX="65.0" layoutY="151.0" text="皺褶(PNL):"/>
+                <Label layoutX="65.0" layoutY="194.0" text="異色(PNL):"/>
+                <Label layoutX="65.0" layoutY="239.0" text="其它(PNL):"/>
             </children>
         </Pane>
     </children>

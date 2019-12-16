@@ -55,7 +55,7 @@
     insert into lotinfobak (select * from lotinfo where lotid = #{lot})
   </insert>
     <update id="addData">
-        update lotinfo set item2 = #{item2},item4=#{item4},item5=#{item5},item6=#{item6} where lotid = #{lot}
+        update lotinfo set item2 = #{item2},item4=#{item4},item5=#{item5},item6=#{item6},IS_MAIN=#{isMain} where lotid = #{lot}
     </update>
     <delete id="deleteLot">
         delete from  lotinfo where lotid = #{lot}

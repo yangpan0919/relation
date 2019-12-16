@@ -191,7 +191,7 @@ public class MainServer {
      * Item5	異色(PNL)
      * Item6	其它(PNL)
      */
-    public boolean addData(String lot, String item2, String item4, String item5, String item6) {
+    public boolean addData(String lot, String item2, String item4, String item5, String item6, String isMain) {
         LotInfo lotInfo = mainMapping.queryLot(lot);
         if (lotInfo == null) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "没有该批次信息!");
@@ -209,7 +209,7 @@ public class MainServer {
             }
         }
         try {
-            mainMapping.addData(lot, item2, item4, item5, item6);
+            mainMapping.addData(lot, item2, item4, item5, item6, isMain);
             addDataView.getStage().close();
             return true;
         } catch (Exception e) {
