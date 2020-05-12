@@ -47,9 +47,9 @@ public class MainServer {
 
     public List<RelationEntity> getAll() {
         List<RelationEntity> all = mainMapping.getAll();
-        all.stream().forEach(x -> {
-            x.setRecipeName(x.getRecipeName().substring(0, x.getRecipeName().length() - 4));
-        });
+//        all.stream().forEach(x -> {
+//            x.setRecipeName(x.getRecipeName().substring(0, x.getRecipeName().length() - 4));
+//        });
         return all;
     }
 
@@ -74,14 +74,14 @@ public class MainServer {
                 CommonUiUtil.alert(Alert.AlertType.INFORMATION, "相同的批号，料号，序号的记录已存在，删除后可进行添加！！！");
                 return;
             }
-            relationEntity.setRecipeName(relationEntity.getRecipeName() + ".xml");
+            relationEntity.setRecipeName(relationEntity.getRecipeName());
             mainMapping.add(relationEntity);
         } else {
             if (query != null && (!query.getId().equals(relationEntity.getId()))) {
                 CommonUiUtil.alert(Alert.AlertType.INFORMATION, "相同的批号，料号，序号的记录已存在，删除后可进行修改！！！");
                 return;
             }
-            relationEntity.setRecipeName(relationEntity.getRecipeName() + ".xml");
+            relationEntity.setRecipeName(relationEntity.getRecipeName());
             mainMapping.update(relationEntity);
         }
 

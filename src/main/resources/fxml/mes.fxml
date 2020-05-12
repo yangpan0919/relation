@@ -34,10 +34,8 @@
                 <Pane prefHeight="78.0" prefWidth="620.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <children>
                         <Button layoutY="4.0" mnemonicParsing="false" onAction="#delete" prefHeight="32.0" prefWidth="67.0" text="删除" />
-                        <Button layoutX="105.0" layoutY="4.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="59.0" text="添加" />
-                        <Button layoutX="200.0" layoutY="4.0" mnemonicParsing="false" onAction="#update" prefHeight="32.0" prefWidth="67.0" text="修改" />
-                        <Button layoutX="298.0" layoutY="4.0" mnemonicParsing="false" onAction="#addData" prefHeight="32.0" prefWidth="67.0" text="数据" />
-                        <Button layoutX="399.0" layoutY="4.0" mnemonicParsing="false" onAction="#upload" prefHeight="32.0" prefWidth="67.0" text="上传" />
+                        <Button layoutX="368.0" layoutY="4.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="59.0" text="添加" />
+                        <Button layoutX="185.0" layoutY="4.0" mnemonicParsing="false" onAction="#update" prefHeight="32.0" prefWidth="67.0" text="修改" />
 
                     </children>
                 </Pane>
