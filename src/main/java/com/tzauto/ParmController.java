@@ -19,12 +19,21 @@ public class ParmController implements Initializable {
     public ObservableList<RelationInfo> list = FXCollections.observableArrayList();
 
     @FXML
+    private TextField deviceCode;
+    @FXML
     private TextField materialNumber;
     @FXML
     private TextField recipeName;
     @FXML
     private TextField fixtureno;
 
+    public TextField getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(TextField deviceCode) {
+        this.deviceCode = deviceCode;
+    }
 
     public TextField getMaterialNumber() {
         return materialNumber;
@@ -53,6 +62,7 @@ public class ParmController implements Initializable {
 
 
     public void action(ActionEvent actionEvent) {
+        MainController.relationEntity.setDeviceCode(deviceCode.getText().trim());
         MainController.relationEntity.setMaterialNumber(materialNumber.getText().trim());
         MainController.relationEntity.setFixtureno(fixtureno.getText().trim());
         MainController.relationEntity.setRecipeName(recipeName.getText().trim());
@@ -61,6 +71,7 @@ public class ParmController implements Initializable {
 
     public void test() {
         try {
+            deviceCode.setText(MainController.relationEntity.getDeviceCode());
             materialNumber.setText(MainController.relationEntity.getMaterialNumber());
             recipeName.setText(MainController.relationEntity.getRecipeName());
             fixtureno.setText(MainController.relationEntity.getFixtureno());

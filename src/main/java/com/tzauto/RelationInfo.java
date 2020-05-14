@@ -10,6 +10,9 @@ public class RelationInfo {
 
     //主键ID
     private SimpleIntegerProperty id;
+
+    //设备编号
+    private SimpleStringProperty deviceCode;
     //序号
     private SimpleStringProperty fixtureno;
 
@@ -48,13 +51,27 @@ public class RelationInfo {
         this.id.set(id);
     }
 
-    public RelationInfo( String materialNumber, String recipeName) {
+    public String getDeviceCode() {
+        return deviceCode.get();
+    }
+
+    public SimpleStringProperty deviceCodeProperty() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode.set(deviceCode);
+    }
+
+    public RelationInfo(String materialNumber, String recipeName) {
 
         this.recipeName = new SimpleStringProperty(recipeName);
         this.materialNumber = new SimpleStringProperty(materialNumber);
 
     }
-    public RelationInfo( String materialNumber, String recipeName,Integer id,String fixtureno) {
+
+    public RelationInfo(String materialNumber, String recipeName, Integer id, String fixtureno, String deviceCode) {
+        this.deviceCode = new SimpleStringProperty(deviceCode);
         this.id = new SimpleIntegerProperty(id);
         this.recipeName = new SimpleStringProperty(recipeName);
         this.materialNumber = new SimpleStringProperty(materialNumber);

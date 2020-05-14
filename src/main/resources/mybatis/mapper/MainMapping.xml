@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tzauto.dao.MainMapping">
     <insert id="add">
-      insert  into relations (recipe_name,material_number,fixtureno) value (#{recipeName}, #{materialNumber},#{fixtureno})
+      insert  into relations (device_code,recipe_name,material_number,fixtureno) value (#{deviceCode},#{recipeName}, #{materialNumber},#{fixtureno})
     </insert>
     <update id="update">
-        update relations set  recipe_name = #{recipeName} , material_number = #{materialNumber},fixtureno=#{fixtureno} where id = #{id}
+        update relations set device_code = #{deviceCode},  recipe_name = #{recipeName} , material_number = #{materialNumber},fixtureno=#{fixtureno} where id = #{id}
     </update>
     <delete id="delete">
         delete from relations where id = #{id}
@@ -22,6 +22,7 @@
         select * from  relations where
          fixtureno = #{fixtureno} and
           material_number = #{materialNumber}
+          and device_code = #{deviceCode}
 
     </select>
     <select id="queryUser" resultType="java.lang.String">

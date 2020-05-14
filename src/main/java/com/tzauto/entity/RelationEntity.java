@@ -10,9 +10,10 @@ public class RelationEntity {
     }
 
     //iSecsHost.executeCommand("dialog \"Lot No\" write " + lotId);
-    public RelationEntity(Integer id, String materialNumber, String recipeName, String fixtureno) {
+    public RelationEntity(Integer id, String materialNumber, String recipeName, String fixtureno, String deviceCode) {
         this.id = id;
 //        this.lot = lot;
+        this.deviceCode = deviceCode;
         this.materialNumber = materialNumber;
         this.recipeName = recipeName;
         this.fixtureno = fixtureno;
@@ -26,6 +27,17 @@ public class RelationEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    //设备编号
+    private String deviceCode;
+
+    public String getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
     }
 
     //序号

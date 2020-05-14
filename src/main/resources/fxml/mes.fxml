@@ -26,9 +26,10 @@
             <children>
                 <TableView fx:id="dataTable" prefHeight="204.0" prefWidth="480.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columns>
-                        <TableColumn fx:id="materialNumber" prefWidth="200.0" text="料号" />
-                        <TableColumn fx:id="fixtureno" prefWidth="84.0" text="序号" />
-                        <TableColumn fx:id="recipeName" prefWidth="188.0" text="程序名" />
+                        <TableColumn fx:id="code" prefWidth="164.0" text="设备编号" />
+                        <TableColumn fx:id="materialNumber" prefWidth="146.0" text="料号" />
+                        <TableColumn fx:id="fixtureno" prefWidth="48.0" text="序号" />
+                  <TableColumn fx:id="recipeName" prefWidth="107.0" text="程序名" />
                     </columns>
                 </TableView>
                 <Pane prefHeight="78.0" prefWidth="620.0" GridPane.columnIndex="1" GridPane.rowIndex="3">

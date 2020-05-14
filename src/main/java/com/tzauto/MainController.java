@@ -28,6 +28,8 @@ public class MainController implements Initializable {
     private TableView<RelationInfo> dataTable;     //tableView
 
     @FXML
+    private TableColumn<RelationInfo, String> code = new TableColumn<>();
+    @FXML
     private TableColumn<RelationInfo, String> materialNumber = new TableColumn<>();
     @FXML
     private TableColumn<RelationInfo, String> recipeName = new TableColumn<>();
@@ -55,13 +57,14 @@ public class MainController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     RelationInfo relationInfo = row.getItem();
-                    relationEntity = new RelationEntity(relationInfo.getId(), relationInfo.getMaterialNumber(), relationInfo.getRecipeName(), relationInfo.getFixtureno());
+                    relationEntity = new RelationEntity(relationInfo.getId(), relationInfo.getMaterialNumber(), relationInfo.getRecipeName(), relationInfo.getFixtureno(), relationInfo.getDeviceCode());
                     parmController.test();
                     RelationApplication.showView(ParmView.class, null, "输入文本", null, Modality.NONE);
                 }
             });
             return row;
         });
+        code.setCellValueFactory(celldata -> celldata.getValue().deviceCodeProperty());
         materialNumber.setCellValueFactory(celldata -> celldata.getValue().materialNumberProperty());
         recipeName.setCellValueFactory(celldata -> celldata.getValue().recipeNameProperty());
         fixtureno.setCellValueFactory(celldata -> celldata.getValue().fixturenoProperty());
@@ -77,7 +80,7 @@ public class MainController implements Initializable {
             RelationEntity dataTableProperty = all.get(i);
 
             RelationInfo property = new RelationInfo(dataTableProperty.getMaterialNumber(),
-                    dataTableProperty.getRecipeName(), dataTableProperty.getId(), dataTableProperty.getFixtureno());
+                    dataTableProperty.getRecipeName(), dataTableProperty.getId(), dataTableProperty.getFixtureno(), dataTableProperty.getDeviceCode());
             list.add(property);
         }
         dataTable.setItems(list);
@@ -116,7 +119,7 @@ public class MainController implements Initializable {
         }
         dataTable.getSelectionModel().getSelectedItems().forEach(x -> {
 
-            relationEntity = new RelationEntity(x.getId(), x.getMaterialNumber(), x.getRecipeName(), x.getFixtureno());
+            relationEntity = new RelationEntity(x.getId(), x.getMaterialNumber(), x.getRecipeName(), x.getFixtureno(), x.getDeviceCode());
             parmController.test();
             RelationApplication.showView(ParmView.class, null, "输入文本", null, Modality.NONE);
 
@@ -131,6 +134,7 @@ public class MainController implements Initializable {
 
     /**
      * 解混按钮
+     *
      * @param actionEvent
      */
     public void mix(ActionEvent actionEvent) {
