@@ -60,4 +60,10 @@
     <delete id="deleteLot">
         delete from  lotinfo where lotid = #{lot}
   </delete>
+    <select id="deviceCodeList" resultType="string">
+        SELECT device_code FROM md_device_info WHERE del_flag = '0' AND client_id =
+				(
+					SELECT PROPERTY_VAL from sys_property WHERE PROPERTY_KEY = 'clientId'
+				)
+    </select>
 </mapper>

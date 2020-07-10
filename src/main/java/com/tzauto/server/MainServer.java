@@ -204,4 +204,13 @@ public class MainServer {
         }
 
     }
+
+    /**
+     * 获取所有设备编号
+     *
+     * @return
+     */
+    public List<String> getDeviceCodes() {
+        return mainMapping.deviceCodeList();
+    }
 }

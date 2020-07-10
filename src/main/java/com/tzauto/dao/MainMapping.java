@@ -30,6 +30,8 @@ public interface MainMapping {
 
     void deleteLot(String lot);
 
+    List<String> deviceCodeList();
+
     MixInfo selectMix(String lot, String layer);
 
     void updateMix(String lot, String layer, int complete);
