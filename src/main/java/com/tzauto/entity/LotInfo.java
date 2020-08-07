@@ -7,6 +7,12 @@ public class LotInfo {
     public LotInfo() {
     }
 
+    private String deviceCode;
+    /**
+     * 白班，夜班
+     */
+    private String doClass;
+
     private String lotid;
 
     private String starttime;
@@ -30,6 +36,24 @@ public class LotInfo {
     private String orderId;
     private String recipeName;
     private String opId;
+
+
+    public String getDoClass() {
+        return doClass;
+    }
+
+    public void setDoClass(String doClass) {
+        this.doClass = doClass;
+    }
+
+    public String getDeviceCode() {
+        return deviceCode;
+    }
+
+    public void setDeviceCode(String deviceCode) {
+        this.deviceCode = deviceCode;
+    }
+
     public String getTargetNum() {
         return targetNum;
     }

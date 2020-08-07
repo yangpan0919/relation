@@ -6,6 +6,7 @@ import org.apache.axis.client.Service;
 import org.apache.axis.encoding.XMLType;
 import org.apache.axis.message.MessageElement;
 import org.apache.axis.types.Schema;
+import org.apache.log4j.Logger;
 
 
 import javax.xml.namespace.QName;
@@ -24,6 +25,9 @@ import java.util.*;
 public class AvaryAxisUtil {
 
     public static Map<String, String[]> parmsNames;
+    public static Map<String, String> configMap = new HashMap<>();
+
+    private static Logger logger = Logger.getLogger(AvaryAxisUtil.class);
 
     public static DateTimeFormatter dtfyyyy_MM_dd_HH_mm_ss = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     public static DateTimeFormatter dtfyyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -35,6 +39,8 @@ public class AvaryAxisUtil {
     //    private static final String url = "http://szecpw014.eavarytech.com:8001/WebServiceForSZ/Service1.asmx";   //URL地址
     private static final String url = "http://qhecpw001.eavarytech.com:8001/WebServiceForQHD/Service1.asmx";   //URL地址
     private static final String namespace = "http://tempuri.org/";
+
+    public static String tableNum;
 
     //    private static final String namespace = GlobalConstants.getProperty("AVARY_MES_WS_NAMESPACE");
     static {
@@ -68,6 +74,7 @@ public class AvaryAxisUtil {
                             }
                         } else {
                             parmsNamesTemp.put((String) x, (String) y);
+                            configMap.put((String) x, (String) y);
                         }
                     });
                     mesInterfaceParaMap.put(deviceType, parmsNamesTemp);
@@ -102,6 +109,8 @@ public class AvaryAxisUtil {
                 }
             }
         }
+        tableNum = configMap.get("tablename");
+        logger.info("tablename为：" + tableNum);
     }
 
     //plasma
@@ -331,5 +340,25 @@ public class AvaryAxisUtil {
         return pre + string.toString();
     }
 
+    //plasma 秦皇岛A1厂 上传数据
+    public static String insertTableOneFactoryQHD(String report, String doDate, String machineNo, String doClass, String item9, String item5, String item8, String item11
+            , String item4, String item10, String item2, String item3, String item6, String createEmpid) throws RemoteException, ServiceException, MalformedURLException {
+
+        Call call = getCallForSendDataToSerGrp();
+        LocalDateTime now = LocalDateTime.now();
+        String time = now.format(dtfyyyy_MM_dd_HH_mm_ss);
+        String[] arr = parmsNames.get("insertTable");
+        String parm = createParm(report, doDate, machineNo, doClass, item9, item5, item8, item11, item4, item10, item2, item3, item6, createEmpid, createEmpid);
+        Object[] params = new Object[]{"test", "test", "#01", arr[0], arr[1],
+                "report|DODATE|MACHINENO|DOCLASS|ITEM9|ITEM5|ITEM8|ITEM11|ITEM4|ITEM10|ITEM2|ITEM3|ITEM6|CREATEEMPID|CHECKEMPID"
+                , parm
+                , time};
+        String result = (String) call.invoke(params); //方法执行后的返回值
+        logger.info(arr[0] + "|" + arr[1] + " 1厂明細表數據插入:" + parm + "，结果为：" + result);
+        if ("OK".equals(result)) {
+            return "";
+        }
+        return result;
+    }
 
 }

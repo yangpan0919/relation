@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -139,9 +140,9 @@ public class MainServer {
 
         String starttime = lotInfo.getStarttime();
 
+        LocalDateTime start = LocalDateTime.of(Integer.parseInt(starttime.substring(0, 4)), Integer.parseInt(starttime.substring(4, 6)), Integer.parseInt(starttime.substring(6, 8)), Integer.parseInt(starttime.substring(8, 10)), Integer.parseInt(starttime.substring(10, 12)), Integer.parseInt(starttime.substring(12, 14)));
+        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endTime.substring(0, 4)), Integer.parseInt(endTime.substring(4, 6)), Integer.parseInt(endTime.substring(6, 8)), Integer.parseInt(endTime.substring(8, 10)), Integer.parseInt(endTime.substring(10, 12)), Integer.parseInt(endTime.substring(12, 14)));
         try {
-            LocalDateTime start = LocalDateTime.of(Integer.parseInt(starttime.substring(0, 4)), Integer.parseInt(starttime.substring(4, 6)), Integer.parseInt(starttime.substring(6, 8)), Integer.parseInt(starttime.substring(8, 10)), Integer.parseInt(starttime.substring(10, 12)), Integer.parseInt(starttime.substring(12, 14)));
-            LocalDateTime end = LocalDateTime.of(Integer.parseInt(endTime.substring(0, 4)), Integer.parseInt(endTime.substring(4, 6)), Integer.parseInt(endTime.substring(6, 8)), Integer.parseInt(endTime.substring(8, 10)), Integer.parseInt(endTime.substring(10, 12)), Integer.parseInt(endTime.substring(12, 14)));
             start = start.plusMinutes(10);
             LocalDateTime now = LocalDateTime.now();
             if (end.isBefore(start)) {
@@ -158,10 +159,16 @@ public class MainServer {
         lotInfo.setEndTime(endTime);
         String result = null;
         try {
-            result = AvaryAxisUtil.insertTable(lotInfo.getPaperNo(), "正常", lotInfo.getStarttime(), endTime, lot, lotInfo.getLayer()
-                    , lotInfo.getMainSerial(), lotInfo.getPartNum(), lotInfo.getWorkNo()
-                    , lotInfo.getLayer(), lotInfo.getLayerName(), lotInfo.getSerial(), lotInfo.getIsMain(), lotInfo.getOrderId()
-                    , lotInfo.getRecipeName(), lotInfo.getTargetNum(), "0", "", "", "", "", lotInfo.getOpId());
+
+            String doDate = end.format(AvaryAxisUtil.dtfyyyy_MM_dd);
+            result = AvaryAxisUtil.insertTableOneFactoryQHD(AvaryAxisUtil.tableNum, doDate, lotInfo.getDeviceCode(), lotInfo.getDoClass(), start.format(AvaryAxisUtil.dtfyyyy_MM_dd_HH_mm_ss), end.format(AvaryAxisUtil.dtfyyyy_MM_dd_HH_mm_ss)
+                    , lotInfo.getPartNum(), lotInfo.getLotid(), lotInfo.getLayer(), lotInfo.getLayerName(), lotInfo.getRecipeName()
+                    , lotInfo.getTargetNum(), lotInfo.getOpId(), lotInfo.getOpId());
+
+//            result = AvaryAxisUtil.insertTable(lotInfo.getPaperNo(), "正常", lotInfo.getStarttime(), endTime, lot, lotInfo.getLayer()
+//                    , lotInfo.getMainSerial(), lotInfo.getPartNum(), lotInfo.getWorkNo()
+//                    , lotInfo.getLayer(), lotInfo.getLayerName(), lotInfo.getSerial(), lotInfo.getIsMain(), lotInfo.getOrderId()
+//                    , lotInfo.getRecipeName(), lotInfo.getTargetNum(), "0", "", "", "", "", lotInfo.getOpId());
 
 
         } catch (Throwable e) {

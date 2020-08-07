@@ -45,7 +45,9 @@
      ,IS_MAIN isMain
      ,ORDER_ID orderId
      ,RECIPE_NAME recipeName
-     ,OP_ID opId
+     ,OP_ID opId,
+     device_code deviceCode,
+     do_class doClass
              from lotinfo where lotid = #{lot};
     </select>
     <select id="selectMix" resultType="com.tzauto.entity.MixInfo">
