@@ -355,9 +355,6 @@ public class AvaryAxisUtil {
                 , time};
         String result = (String) call.invoke(params); //方法执行后的返回值
         logger.info(arr[0] + "|" + arr[1] + " 1厂明細表數據插入:" + parm + "，结果为：" + result);
-        if ("OK".equals(result)) {
-            return "";
-        }
         return result;
     }
 
