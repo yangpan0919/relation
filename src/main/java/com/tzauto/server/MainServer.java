@@ -11,11 +11,18 @@ import javafx.stage.Modality;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
@@ -25,6 +32,49 @@ import java.util.regex.Pattern;
 public class MainServer {
 
     private static final Logger logger = Logger.getLogger(MainServer.class);
+
+    List<String> userNameList = new ArrayList<>();
+    List<String> passWordList = new ArrayList<>();
+
+    {
+        String textPath = "D:\\EAP\\auditor.properties";
+        Reader isr = null;
+        try {
+            Properties pro = new Properties();
+            isr = new InputStreamReader(new FileInputStream(textPath), "UTF-8");
+            pro.load(isr);
+
+            String user = null;
+            String password = null;
+            for (int i = 1; i < 10; i++) {
+                user = pro.getProperty("uploadUser" + i);
+                password = pro.getProperty("uploadPassword" + i);
+
+                if (user == null || password == null || StringUtils.isEmpty(user.trim()) || StringUtils.isEmpty(password.trim())) {
+
+                } else {
+                    if (userNameList.contains(user.trim())) {
+                        continue;
+                    }
+                    userNameList.add(user.trim());
+                    passWordList.add(password.trim());
+                }
+            }
+
+
+        } catch (Exception e) {
+            logger.error("plasma auditor文件加载失败！！！：" + textPath);
+            System.exit(0);
+        } finally {
+            if (isr != null) {
+                try {
+                    isr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 
     @Autowired
@@ -91,6 +141,11 @@ public class MainServer {
         mainController.flushData();
     }
 
+    /**
+     * 开始登陆界面标志位
+     */
+    volatile boolean flag = false;
+
     public void login() {
         String name = loginController.getUserName().getText();
         String passWord = loginController.getPassword().getText();
@@ -98,13 +153,28 @@ public class MainServer {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "请输入用户名或密码!");
             return;
         }
-        name = mainMapping.queryUser(name, passWord);
+        if (flag) {
+            //从 auditor配置文件，获取用户名和密码
+            if (userNameList.contains(name) && passWordList.contains(passWord)
+                    && userNameList.indexOf(name) == passWordList.indexOf(passWord)) {
+            } else {
+                name = null;
+            }
+
+        } else {
+            name = mainMapping.queryUser(name, passWord);
+        }
         if (name == null) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "用户名或密码错误!");
             return;
         }
         loginView.getStage().close();
-        RelationApplication.showView(MainView.class, null, "关系维护", null, Modality.NONE);
+        if (flag) {
+            RelationApplication.showView(UploadView.class, null, "上传数据", null, Modality.NONE);
+        } else {
+            flag = !flag;
+            RelationApplication.showView(MainView.class, null, "关系维护", null, Modality.NONE);
+        }
     }
 
     public static Pattern pattern = Pattern.compile("((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|" +

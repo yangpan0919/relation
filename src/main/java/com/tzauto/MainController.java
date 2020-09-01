@@ -126,9 +126,14 @@ public class MainController implements Initializable {
         });
     }
 
-    public void upload(ActionEvent actionEvent) {
+    @Autowired
+    LoginController loginController;
 
-        RelationApplication.showView(UploadView.class, null, "上传数据", null, Modality.NONE);
+    public void upload(ActionEvent actionEvent) {
+        loginController.getUserName().clear();
+        loginController.getPassword().clear();
+        RelationApplication.showView(LoginView.class, null, "上传用户名密码校验", null, Modality.NONE);
+//        RelationApplication.showView(UploadView.class, null, "上传数据", null, Modality.NONE);
 
     }
 
