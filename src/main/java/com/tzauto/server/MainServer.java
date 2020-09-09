@@ -7,10 +7,12 @@ import com.tzauto.entity.MixInfo;
 import com.tzauto.entity.RelationEntity;
 import com.tzauto.utils.AvaryAxisUtil;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
@@ -22,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -87,6 +90,7 @@ public class MainServer {
     LoginView loginView;
     @Autowired
     UploadView uploadView;
+
     @Autowired
     MainView mainView;
     @Autowired
@@ -194,7 +198,8 @@ public class MainServer {
 //
 //    }
 
-    public void upload(String lot, String endTime) {
+    @Transactional
+    public void upload(String lot, String endTime, String mainSerial) {
 
         if (!pattern.matcher(endTime).matches()) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "结束时间格式不正确!");
@@ -202,7 +207,7 @@ public class MainServer {
         }
 
 
-        LotInfo lotInfo = mainMapping.queryLot(lot);
+        LotInfo lotInfo = mainMapping.queryLotTwoParam(lot, mainSerial);
         if (lotInfo == null) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "没有该批次信息!");
             return;
@@ -247,8 +252,8 @@ public class MainServer {
 
         if ("OK".equals(result)) {
             CommonUiUtil.alert(Alert.AlertType.INFORMATION, "信息上传成功!");
-            mainMapping.lotInfoBak(lot);
-            mainMapping.deleteLot(lot);
+            mainMapping.lotInfoBakTwoParam(lot, mainSerial);
+            mainMapping.deleteLotTwoParam(lot, mainSerial);
             uploadView.getStage().close();
             StringBuilder sb = new StringBuilder();
             sb.append("用户：").append(loginController.getUserName().getText()).append(" 手动上传数据-->").append(lotInfo.toString());

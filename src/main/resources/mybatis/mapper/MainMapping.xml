@@ -31,6 +31,28 @@
 
     </select>
 
+    <select id="queryLotTwoParam" resultType="com.tzauto.entity.LotInfo">
+            select
+            lotid, starttime, lotnum, complete ,firstnum
+              ,TARGET_NUM targetNum
+     ,PAPER_NO paperNo
+     ,LAYER
+     ,MAIN_SERIAL mainSerial
+     ,PART_NUM partNum
+     ,WORK_NO workNo
+     ,LAYER_NAME layerName
+     ,SERIAL
+     ,IS_MAIN isMain
+     ,ORDER_ID orderId
+     ,RECIPE_NAME recipeName
+     ,OP_ID opId
+     ,item2 item2
+     ,item4 item4
+     ,item5 item5
+     ,item6 item6
+             from lotinfo where lotid = #{lot} and MAIN_SERIAL = #{mainSerial}
+    </select>
+
     <select id="queryLot" resultType="com.tzauto.entity.LotInfo">
             select
             lotid, starttime, lotnum, complete ,firstnum
@@ -56,16 +78,28 @@
     <update id="updateMix">
         update mix_info set complete = #{complete}  where lot = #{lot} and layer = #{layer}
     </update>
+
     <insert id="lotInfoBak">
     insert into lotinfobak (select * from lotinfo where lotid = #{lot})
   </insert>
+
+    <insert id="lotInfoBakTwoParam">
+    insert into lotinfobak (select * from lotinfo where lotid = #{lot} and MAIN_SERIAL = #{mainSerial})
+  </insert>
+
     <delete id="deleteLot">
         delete from  lotinfo where lotid = #{lot}
   </delete>
+
     <select id="deviceCodeList" resultType="string">
         SELECT device_code FROM md_device_info WHERE del_flag = '0' AND client_id =
 				(
 					SELECT PROPERTY_VAL from sys_property WHERE PROPERTY_KEY = 'clientId'
 				)
     </select>
+
+    <delete id="deleteLotTwoParam">
+        delete from  lotinfo where lotid = #{lot} and MAIN_SERIAL = #{mainSerial}
+  </delete>
+
 </mapper>

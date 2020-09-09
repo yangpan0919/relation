@@ -22,6 +22,10 @@ public class UploadController implements Initializable {
     @FXML
     private TextField endTime;
 
+    @FXML
+    //主途程序字段，存储的是，
+    private TextField mainSerial;
+
     @Autowired
     MainServer mainServer;
 
@@ -33,11 +37,8 @@ public class UploadController implements Initializable {
 
 
     public void action(ActionEvent actionEvent) {
-        lot.getText().trim();
-       endTime.getText().trim();
-        mainServer.upload(lot.getText().trim(),endTime.getText().trim());
+        mainServer.upload(lot.getText().trim(), endTime.getText().trim(), mainSerial.getText().trim());
     }
-
 
 
 }
