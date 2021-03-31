@@ -158,10 +158,10 @@ public class MainServer {
         lotInfo.setEndTime(endTime);
         String result = null;
         try {
-            result = AvaryAxisUtil.insertTable(lotInfo.getPaperNo(), "正常", lotInfo.getStarttime(), endTime, lot, lotInfo.getLayer()
+            result = AvaryAxisUtil.insertTableHA(lotInfo.getPaperNo(), "正常", lotInfo.getStarttime(), endTime, lot, lotInfo.getLayer()
                     , lotInfo.getMainSerial(), lotInfo.getPartNum(), lotInfo.getWorkNo()
                     , lotInfo.getLayer(), lotInfo.getLayerName(), lotInfo.getSerial(), lotInfo.getIsMain(), lotInfo.getOrderId()
-                    , lotInfo.getRecipeName(), lotInfo.getTargetNum(), "0", "", "", "", "", lotInfo.getOpId());
+                    , lotInfo.getRecipeName(), lotInfo.getTargetNum(), "0", "", "", lotInfo.getOpId());
 
 
         } catch (Throwable e) {

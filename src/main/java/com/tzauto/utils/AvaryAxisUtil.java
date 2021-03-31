@@ -6,6 +6,7 @@ import org.apache.axis.client.Service;
 import org.apache.axis.encoding.XMLType;
 import org.apache.axis.message.MessageElement;
 import org.apache.axis.types.Schema;
+import org.apache.log4j.Logger;
 
 
 import javax.xml.namespace.QName;
@@ -23,6 +24,8 @@ import java.util.*;
 
 public class AvaryAxisUtil {
 
+    private static final Logger logger = Logger.getLogger(AvaryAxisUtil.class);
+    
     public static Map<String, String[]> parmsNames;
 
     public static DateTimeFormatter dtfyyyy_MM_dd_HH_mm_ss = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -117,6 +120,26 @@ public class AvaryAxisUtil {
                 , createParm(paperNo, macState, startTime, endTime, lotnum, layer, mainSerial, partnum, workNo, sfcLayer, layerName, serial, IsMain, orderId, Item1, qty, IsOk, Item2, Item4, Item5, Item6, CreateEmpid, time, CreateEmpid, time)
                 , time};
         String result = (String) call.invoke(params); //方法执行后的返回值
+        return result;
+    }
+
+    //淮安的plasma
+    public static String insertTableHA(String paperNo, String macState, String startTime, String endTime, String lotnum, String layer, String mainSerial, String partnum, String workNo, String sfcLayer, String layerName
+            , String serial, String IsMain, String orderId, String Item1, String qty, String IsOk, String Item2, String Item3, String CreateEmpid) throws RemoteException, ServiceException, MalformedURLException {
+
+        Call call = getCallForSendDataToSerGrp();
+        LocalDateTime now = LocalDateTime.now();
+        String time = now.format(dtfyyyy_MM_dd_HH_mm_ss);
+        String[] arr = parmsNames.get("insertTable");
+        Object[] params = new Object[]{"test", "test", "#01", arr[0], arr[1],
+                "PaperNo|MacState|StartTime|EndTime|Lotnum|Layer|MainSerial|Partnum|WorkNo|SfcLayer|LayerName|Serial|IsMain|OrderId|Item1|Qty|IsOk|Item2|Item3|CreateEmpid|CreateTime|ModifyEmpid|ModifyTime"
+                , createParm(paperNo, macState, startTime, endTime, lotnum, layer, mainSerial, partnum, workNo, sfcLayer, layerName, serial, IsMain, orderId, Item1, qty, IsOk, Item2, Item3, CreateEmpid, time, CreateEmpid, time)
+                , time};
+        String result = (String) call.invoke(params); //方法执行后的返回值
+        logger.info(arr[0] + "|" + arr[1] + " 明細表數據插入:" + createParm(paperNo, macState, startTime, endTime, lotnum, layer, mainSerial, partnum, workNo, sfcLayer, layerName, serial, orderId, Item1, qty, IsOk, Item2, Item3, CreateEmpid) + "，结果为：" + result);
+        if ("OK".equals(result)) {
+            return "";
+        }
         return result;
     }
 
