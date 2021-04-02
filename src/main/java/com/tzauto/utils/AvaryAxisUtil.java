@@ -25,7 +25,7 @@ import java.util.*;
 public class AvaryAxisUtil {
 
     private static final Logger logger = Logger.getLogger(AvaryAxisUtil.class);
-    
+
     public static Map<String, String[]> parmsNames;
 
     public static DateTimeFormatter dtfyyyy_MM_dd_HH_mm_ss = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -36,7 +36,8 @@ public class AvaryAxisUtil {
     public static Map<String, Map> mesInterfaceParaMap = new HashMap<>();
 
     //    private static final String url = "http://szecpw014.eavarytech.com:8001/WebServiceForSZ/Service1.asmx";   //URL地址
-    private static final String url = "http://qhecpw001.eavarytech.com:8001/WebServiceForQHD/Service1.asmx";   //URL地址
+//    private static final String url = "http://qhecpw001.eavarytech.com:8001/WebServiceForQHD/Service1.asmx";   //URL地址
+    private static final String url = "http://HAECPW001.eavarytech.com:8001/WebServiceForHA/Service1.asmx";   //URL地址
     private static final String namespace = "http://tempuri.org/";
 
     //    private static final String namespace = GlobalConstants.getProperty("AVARY_MES_WS_NAMESPACE");
@@ -137,9 +138,6 @@ public class AvaryAxisUtil {
                 , time};
         String result = (String) call.invoke(params); //方法执行后的返回值
         logger.info(arr[0] + "|" + arr[1] + " 明細表數據插入:" + createParm(paperNo, macState, startTime, endTime, lotnum, layer, mainSerial, partnum, workNo, sfcLayer, layerName, serial, orderId, Item1, qty, IsOk, Item2, Item3, CreateEmpid) + "，结果为：" + result);
-        if ("OK".equals(result)) {
-            return "";
-        }
         return result;
     }
 
