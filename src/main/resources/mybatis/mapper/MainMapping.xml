@@ -50,6 +50,8 @@
      ,item4 item4
      ,item5 item5
      ,item6 item6
+     ,device_code deviceCode
+     ,do_class doClass
              from lotinfo where lotid = #{lot} and MAIN_SERIAL = #{mainSerial}
     </select>
 
